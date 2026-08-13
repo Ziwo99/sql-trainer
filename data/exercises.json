@@ -1,0 +1,480 @@
+{
+  "categories": [
+    "1. SELECT",
+    "2. WHERE & Opérateurs",
+    "3. Opérateurs ensemblistes (UNION, INTERSECT)",
+    "4. ORDER BY",
+    "5. CASE",
+    "6. Fonctions numériques",
+    "7. CAST",
+    "8. Fonctions d'agrégation",
+    "9. GROUP BY",
+    "10. HAVING",
+    "11. JOINs",
+    "12. Sous-requêtes",
+    "13. CTE (WITH)",
+    "14. Fonctions fenêtre (Window functions)"
+  ],
+  "exercises": [
+    {
+      "id": "select-01",
+      "category": "1. SELECT",
+      "title": "Colonnes spécifiques",
+      "difficulty": "Facile",
+      "prompt": "Affiche le prénom (`first_name`), le nom (`last_name`) et la ville (`city`) de tous les clients de la table `customers`.",
+      "solution": "SELECT first_name, last_name, city FROM customers;",
+      "orderMatters": false,
+      "hint": "SELECT col1, col2, col3 FROM table;"
+    },
+    {
+      "id": "select-02",
+      "category": "1. SELECT",
+      "title": "Valeurs distinctes",
+      "difficulty": "Facile",
+      "prompt": "Affiche la liste des pays distincts (sans doublons) dans lesquels résident les clients.",
+      "solution": "SELECT DISTINCT country FROM customers;",
+      "orderMatters": false,
+      "hint": "Le mot-clé DISTINCT s'utilise juste après SELECT."
+    },
+    {
+      "id": "select-03",
+      "category": "1. SELECT",
+      "title": "Expression calculée avec alias",
+      "difficulty": "Moyen",
+      "prompt": "Pour chaque ligne de `order_items`, affiche `order_item_id`, `order_id` et le montant de la ligne calculé comme `quantity * unit_price`, nommé `line_total`.",
+      "solution": "SELECT order_item_id, order_id, quantity * unit_price AS line_total FROM order_items;",
+      "orderMatters": false,
+      "hint": "Une expression arithmétique peut suivre directement SELECT, et AS permet de lui donner un nom."
+    },
+    {
+      "id": "select-04",
+      "category": "1. SELECT",
+      "title": "Top N avec LIMIT",
+      "difficulty": "Facile",
+      "prompt": "Affiche le nom (`product_name`) et le prix (`unit_price`) des 5 produits les plus chers, du plus cher au moins cher.",
+      "solution": "SELECT product_name, unit_price FROM products ORDER BY unit_price DESC LIMIT 5;",
+      "orderMatters": true,
+      "hint": "Combine ORDER BY ... DESC avec LIMIT."
+    },
+    {
+      "id": "where-01",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Filtrer sur une valeur exacte",
+      "difficulty": "Facile",
+      "prompt": "Affiche tous les clients (`customers`) dont le pays est 'France'.",
+      "solution": "SELECT * FROM customers WHERE country = 'France';",
+      "orderMatters": false,
+      "hint": "WHERE colonne = 'valeur'"
+    },
+    {
+      "id": "where-02",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Plage de valeurs avec BETWEEN",
+      "difficulty": "Facile",
+      "prompt": "Affiche `product_name` et `unit_price` des produits dont le prix est compris entre 5 et 30 (bornes incluses).",
+      "solution": "SELECT product_name, unit_price FROM products WHERE unit_price BETWEEN 5 AND 30;",
+      "orderMatters": false,
+      "hint": "BETWEEN inclut les deux bornes."
+    },
+    {
+      "id": "where-03",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Filtrage textuel avec LIKE",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `first_name` et `last_name` des clients dont le nom de famille (`last_name`) commence par la lettre 'B'.",
+      "solution": "SELECT first_name, last_name FROM customers WHERE last_name LIKE 'B%';",
+      "orderMatters": false,
+      "hint": "Le symbole % remplace n'importe quelle suite de caractères."
+    },
+    {
+      "id": "where-04",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Liste de valeurs avec IN",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `order_id` et `status` des commandes dont le statut est 'delivered' ou 'shipped'.",
+      "solution": "SELECT order_id, status FROM orders WHERE status IN ('delivered', 'shipped');",
+      "orderMatters": false,
+      "hint": "IN (...) est un raccourci pour plusieurs conditions OR."
+    },
+    {
+      "id": "where-05",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Valeurs manquantes avec IS NULL",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `first_name` et `last_name` des clients qui n'ont pas renseigné d'adresse email (`email` est NULL).",
+      "solution": "SELECT first_name, last_name FROM customers WHERE email IS NULL;",
+      "orderMatters": false,
+      "hint": "On ne peut pas tester NULL avec '=', il faut IS NULL."
+    },
+    {
+      "id": "where-06",
+      "category": "2. WHERE & Opérateurs",
+      "title": "Sous-requête avec NOT IN",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `first_name` et `last_name` des clients qui n'ont jamais passé de commande (aucune ligne dans `orders` pour ce `customer_id`).",
+      "solution": "SELECT first_name, last_name FROM customers WHERE customer_id NOT IN (SELECT customer_id FROM orders);",
+      "orderMatters": false,
+      "hint": "Utilise NOT IN avec une sous-requête qui liste les customer_id présents dans orders."
+    },
+    {
+      "id": "setops-01",
+      "category": "3. Opérateurs ensemblistes (UNION, INTERSECT)",
+      "title": "Combiner deux résultats avec UNION",
+      "difficulty": "Moyen",
+      "prompt": "Affiche la liste unique (sans doublons) des pays présents soit dans `customers`, soit dans `employees`.",
+      "solution": "SELECT country FROM customers UNION SELECT country FROM employees;",
+      "orderMatters": false,
+      "hint": "UNION combine deux SELECT ayant le même nombre de colonnes et supprime les doublons automatiquement."
+    },
+    {
+      "id": "setops-02",
+      "category": "3. Opérateurs ensemblistes (UNION, INTERSECT)",
+      "title": "Valeurs communes avec INTERSECT",
+      "difficulty": "Moyen",
+      "prompt": "Affiche les pays qui ont à la fois au moins un client ET au moins un employé.",
+      "solution": "SELECT country FROM customers INTERSECT SELECT country FROM employees;",
+      "orderMatters": false,
+      "hint": "INTERSECT retourne uniquement les lignes présentes dans les deux SELECT."
+    },
+    {
+      "id": "orderby-01",
+      "category": "4. ORDER BY",
+      "title": "Tri simple",
+      "difficulty": "Facile",
+      "prompt": "Affiche `product_name` et `unit_price` de tous les produits, triés par prix croissant.",
+      "solution": "SELECT product_name, unit_price FROM products ORDER BY unit_price ASC;",
+      "orderMatters": true,
+      "hint": "ASC est l'ordre croissant (et c'est l'ordre par défaut)."
+    },
+    {
+      "id": "orderby-02",
+      "category": "4. ORDER BY",
+      "title": "Tri sur plusieurs colonnes",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name`, `category_id` et `unit_price` de tous les produits, triés d'abord par `category_id` croissant, puis par `unit_price` décroissant en cas d'égalité de catégorie.",
+      "solution": "SELECT product_name, category_id, unit_price FROM products ORDER BY category_id ASC, unit_price DESC;",
+      "orderMatters": true,
+      "hint": "ORDER BY col1 ASC, col2 DESC : la deuxième colonne ne sert qu'à départager les égalités de la première."
+    },
+    {
+      "id": "case-01",
+      "category": "5. CASE",
+      "title": "Catégoriser une valeur numérique",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name`, `unit_price` et une colonne `price_range` qui vaut 'Low' si `unit_price` < 10, 'Medium' si le prix est entre 10 et 50 (inclus), et 'High' sinon.",
+      "solution": "SELECT product_name, unit_price, CASE WHEN unit_price < 10 THEN 'Low' WHEN unit_price BETWEEN 10 AND 50 THEN 'Medium' ELSE 'High' END AS price_range FROM products;",
+      "orderMatters": false,
+      "hint": "N'oublie pas le END final, et attention à l'ordre des WHEN (le premier qui correspond gagne)."
+    },
+    {
+      "id": "case-02",
+      "category": "5. CASE",
+      "title": "Transformer un statut en indicateur",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `order_id` et une colonne `is_delivered` qui vaut 'Yes' si `status` = 'delivered', et 'No' sinon.",
+      "solution": "SELECT order_id, CASE WHEN status = 'delivered' THEN 'Yes' ELSE 'No' END AS is_delivered FROM orders;",
+      "orderMatters": false,
+      "hint": "Une seule condition suffit ici, avec un ELSE pour tous les autres cas."
+    },
+    {
+      "id": "numeric-01",
+      "category": "6. Fonctions numériques",
+      "title": "Arrondir un calcul",
+      "difficulty": "Facile",
+      "prompt": "Pour chaque ligne de `order_items`, affiche `order_item_id` et le prix net après remise, calculé comme `unit_price * (1 - discount)`, arrondi à 2 décimales et nommé `net_price`.",
+      "solution": "SELECT order_item_id, ROUND(unit_price * (1 - discount), 2) AS net_price FROM order_items;",
+      "orderMatters": false,
+      "hint": "ROUND(nombre, nb_decimales)"
+    },
+    {
+      "id": "cast-01",
+      "category": "7. CAST",
+      "title": "Convertir du texte en nombre",
+      "difficulty": "Facile",
+      "prompt": "Convertis le texte `'250'` en entier avec CAST, puis multiplie le résultat par 3. Nomme la colonne obtenue `result`.",
+      "solution": "SELECT CAST('250' AS INTEGER) * 3 AS result;",
+      "orderMatters": true,
+      "hint": "CAST(valeur AS INTEGER) convertit une chaîne de caractères en entier."
+    },
+    {
+      "id": "agg-01",
+      "category": "8. Fonctions d'agrégation",
+      "title": "MIN, MAX, AVG combinés",
+      "difficulty": "Facile",
+      "prompt": "Affiche en une seule ligne le prix minimum (`min_price`), le prix maximum (`max_price`) et le prix moyen arrondi à 2 décimales (`avg_price`) de tous les produits.",
+      "solution": "SELECT MIN(unit_price) AS min_price, MAX(unit_price) AS max_price, ROUND(AVG(unit_price), 2) AS avg_price FROM products;",
+      "orderMatters": true,
+      "hint": "Plusieurs fonctions d'agrégation peuvent cohabiter dans le même SELECT."
+    },
+    {
+      "id": "agg-02",
+      "category": "8. Fonctions d'agrégation",
+      "title": "Compter des lignes",
+      "difficulty": "Facile",
+      "prompt": "Affiche le nombre total de commandes dans `orders`, dans une colonne nommée `nb_orders`.",
+      "solution": "SELECT COUNT(*) AS nb_orders FROM orders;",
+      "orderMatters": true,
+      "hint": "COUNT(*) compte toutes les lignes, y compris celles avec des NULL."
+    },
+    {
+      "id": "agg-03",
+      "category": "8. Fonctions d'agrégation",
+      "title": "Compter des valeurs distinctes",
+      "difficulty": "Moyen",
+      "prompt": "Affiche le nombre de pays distincts représentés dans `customers`, dans une colonne nommée `nb_countries`.",
+      "solution": "SELECT COUNT(DISTINCT country) AS nb_countries FROM customers;",
+      "orderMatters": true,
+      "hint": "COUNT(DISTINCT colonne) ignore les doublons et les NULL."
+    },
+    {
+      "id": "groupby-01",
+      "category": "9. GROUP BY",
+      "title": "Compter par groupe",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `country` et le nombre de clients (`nb_customers`) pour chaque pays, triée par nombre de clients décroissant, puis par pays croissant en cas d'égalité.",
+      "solution": "SELECT country, COUNT(*) AS nb_customers FROM customers GROUP BY country ORDER BY nb_customers DESC, country ASC;",
+      "orderMatters": true,
+      "hint": "GROUP BY country regroupe les lignes avant de les compter."
+    },
+    {
+      "id": "groupby-02",
+      "category": "9. GROUP BY",
+      "title": "Agrégat par groupe avec NULL",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `category_id` et le prix moyen arrondi à 2 décimales (`avg_price`) des produits, groupé par `category_id`, trié par `category_id` croissant (les produits sans catégorie forment un groupe `NULL`).",
+      "solution": "SELECT category_id, ROUND(AVG(unit_price), 2) AS avg_price FROM products GROUP BY category_id ORDER BY category_id ASC;",
+      "orderMatters": true,
+      "hint": "GROUP BY crée aussi un groupe pour les valeurs NULL."
+    },
+    {
+      "id": "groupby-03",
+      "category": "9. GROUP BY",
+      "title": "GROUP BY après un JOIN",
+      "difficulty": "Difficile",
+      "prompt": "En utilisant un JOIN entre `customers` et `orders`, affiche `customer_id` et le nombre de commandes passées (`nb_orders`) pour chaque client ayant passé au moins une commande. Trie par `nb_orders` décroissant, puis par `customer_id` croissant.",
+      "solution": "SELECT c.customer_id, COUNT(o.order_id) AS nb_orders FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id ORDER BY nb_orders DESC, c.customer_id ASC;",
+      "orderMatters": true,
+      "hint": "Un JOIN classique (INNER) exclut automatiquement les clients sans commande."
+    },
+    {
+      "id": "having-01",
+      "category": "10. HAVING",
+      "title": "Filtrer des groupes",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `country` et le nombre de clients (`nb_customers`) pour les pays ayant au moins 5 clients, trié par pays.",
+      "solution": "SELECT country, COUNT(*) AS nb_customers FROM customers GROUP BY country HAVING COUNT(*) >= 5 ORDER BY country;",
+      "orderMatters": true,
+      "hint": "HAVING filtre après le GROUP BY, contrairement à WHERE."
+    },
+    {
+      "id": "having-02",
+      "category": "10. HAVING",
+      "title": "WHERE + GROUP BY + HAVING",
+      "difficulty": "Difficile",
+      "prompt": "Parmi les produits actifs (`active = 1`) ayant une catégorie assignée (`category_id` non NULL), affiche `category_id` et le nombre de produits actifs (`nb_active_products`) pour les catégories ayant au moins 4 produits actifs. Trie par `nb_active_products` décroissant, puis par `category_id` croissant.",
+      "solution": "SELECT category_id, COUNT(*) AS nb_active_products FROM products WHERE active = 1 AND category_id IS NOT NULL GROUP BY category_id HAVING COUNT(*) >= 4 ORDER BY nb_active_products DESC, category_id ASC;",
+      "orderMatters": true,
+      "hint": "WHERE filtre les lignes avant le regroupement ; HAVING filtre les groupes après."
+    },
+    {
+      "id": "join-01",
+      "category": "11. JOINs",
+      "title": "INNER JOIN",
+      "difficulty": "Facile",
+      "prompt": "Affiche `product_name` et `category_name` pour chaque produit ayant une catégorie valide (utilise un INNER JOIN entre `products` et `categories`).",
+      "solution": "SELECT p.product_name, c.category_name FROM products p JOIN categories c ON p.category_id = c.category_id;",
+      "orderMatters": false,
+      "hint": "JOIN (= INNER JOIN) ne garde que les lignes ayant une correspondance dans les deux tables."
+    },
+    {
+      "id": "join-02",
+      "category": "11. JOINs",
+      "title": "LEFT JOIN",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name` et `category_name` pour TOUS les produits (y compris ceux sans catégorie valide, pour lesquels `category_name` doit apparaître à NULL).",
+      "solution": "SELECT p.product_name, c.category_name FROM products p LEFT JOIN categories c ON p.category_id = c.category_id;",
+      "orderMatters": false,
+      "hint": "LEFT JOIN garde toutes les lignes de la table de gauche (products), même sans correspondance."
+    },
+    {
+      "id": "join-03",
+      "category": "11. JOINs",
+      "title": "Trouver les lignes sans correspondance",
+      "difficulty": "Moyen",
+      "prompt": "Affiche le `product_name` des produits qui n'ont AUCUNE catégorie valide (aucune correspondance dans `categories`).",
+      "solution": "SELECT p.product_name FROM products p LEFT JOIN categories c ON p.category_id = c.category_id WHERE c.category_id IS NULL;",
+      "orderMatters": false,
+      "hint": "Après un LEFT JOIN, une colonne de la table de droite vaut NULL quand il n'y a pas eu de correspondance."
+    },
+    {
+      "id": "join-04",
+      "category": "11. JOINs",
+      "title": "LEFT JOIN dans l'autre sens (simuler RIGHT JOIN)",
+      "difficulty": "Moyen",
+      "prompt": "Affiche le `category_name` des catégories qui n'ont AUCUN produit associé. Astuce : un LEFT JOIN en partant de `categories` vers `products` donne exactement le même résultat qu'un RIGHT JOIN products -> categories.",
+      "solution": "SELECT c.category_name FROM categories c LEFT JOIN products p ON c.category_id = p.category_id WHERE p.product_id IS NULL;",
+      "orderMatters": false,
+      "hint": "Inverse simplement quelle table est 'de gauche' dans le LEFT JOIN."
+    },
+    {
+      "id": "join-05",
+      "category": "11. JOINs",
+      "title": "SELF JOIN",
+      "difficulty": "Difficile",
+      "prompt": "Affiche les paires de clients qui habitent dans la même ville : `customer_a`, `customer_b` (noms complets `prénom nom`) et `city`. Chaque paire ne doit apparaître qu'une seule fois (pas de doublon ni de client associé à lui-même).",
+      "solution": "SELECT a.first_name || ' ' || a.last_name AS customer_a, b.first_name || ' ' || b.last_name AS customer_b, a.city FROM customers a JOIN customers b ON a.city = b.city AND a.customer_id < b.customer_id;",
+      "orderMatters": false,
+      "hint": "Un SELF JOIN joint une table avec elle-même via deux alias. La condition `a.customer_id < b.customer_id` évite les doublons."
+    },
+    {
+      "id": "join-06",
+      "category": "11. JOINs",
+      "title": "CROSS JOIN",
+      "difficulty": "Difficile",
+      "prompt": "Affiche le nombre total de combinaisons possibles entre chaque catégorie et chaque employé (produit cartésien), dans une colonne nommée `nb_combinations`.",
+      "solution": "SELECT COUNT(*) AS nb_combinations FROM categories CROSS JOIN employees;",
+      "orderMatters": true,
+      "hint": "CROSS JOIN associe chaque ligne de la première table avec chaque ligne de la seconde : nb_lignes = table1 x table2."
+    },
+    {
+      "id": "join-07",
+      "category": "11. JOINs",
+      "title": "Combiner INNER JOIN et LEFT JOIN",
+      "difficulty": "Difficile",
+      "prompt": "Pour chaque commande, affiche `order_id`, le nom complet du client (`customer_name`, format `prénom nom`) et le nom complet de l'employé qui l'a traitée (`employee_name`). Certaines commandes n'ont pas d'employé assigné : `employee_name` doit alors valoir NULL plutôt que d'exclure la commande.",
+      "solution": "SELECT o.order_id, c.first_name || ' ' || c.last_name AS customer_name, e.first_name || ' ' || e.last_name AS employee_name FROM orders o JOIN customers c ON o.customer_id = c.customer_id LEFT JOIN employees e ON o.employee_id = e.employee_id;",
+      "orderMatters": false,
+      "hint": "Chaque commande a toujours un client (INNER JOIN) mais pas toujours un employé (LEFT JOIN)."
+    },
+    {
+      "id": "subq-01",
+      "category": "12. Sous-requêtes",
+      "title": "Sous-requête dans WHERE",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name` et `unit_price` des produits dont le prix est supérieur au prix moyen de TOUS les produits.",
+      "solution": "SELECT product_name, unit_price FROM products WHERE unit_price > (SELECT AVG(unit_price) FROM products);",
+      "orderMatters": false,
+      "hint": "La sous-requête `(SELECT AVG(unit_price) FROM products)` renvoie une seule valeur, utilisable directement après un opérateur de comparaison."
+    },
+    {
+      "id": "subq-02",
+      "category": "12. Sous-requêtes",
+      "title": "Sous-requête avec IN",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name` des produits appartenant à la catégorie 'Electronics', en utilisant une sous-requête sur `categories` (sans JOIN).",
+      "solution": "SELECT product_name FROM products WHERE category_id IN (SELECT category_id FROM categories WHERE category_name = 'Electronics');",
+      "orderMatters": false,
+      "hint": "IN (sous-requête) fonctionne comme IN (liste de valeurs), sauf que la liste vient d'une requête."
+    },
+    {
+      "id": "subq-03",
+      "category": "12. Sous-requêtes",
+      "title": "EXISTS",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `first_name` et `last_name` des clients ayant passé au moins une commande, en utilisant EXISTS.",
+      "solution": "SELECT first_name, last_name FROM customers c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id);",
+      "orderMatters": false,
+      "hint": "EXISTS renvoie vrai dès que la sous-requête corrélée trouve au moins une ligne, peu importe son contenu."
+    },
+    {
+      "id": "subq-04",
+      "category": "12. Sous-requêtes",
+      "title": "Sous-requête dans FROM",
+      "difficulty": "Difficile",
+      "prompt": "Calcule le prix moyen par catégorie dans une sous-requête nommée `cat_avg` (colonnes `category_id`, `avg_price`), puis affiche uniquement les lignes de `cat_avg` où `avg_price` dépasse 20.",
+      "solution": "SELECT category_id, avg_price FROM (SELECT category_id, AVG(unit_price) AS avg_price FROM products GROUP BY category_id) AS cat_avg WHERE avg_price > 20;",
+      "orderMatters": false,
+      "hint": "Une sous-requête utilisée dans FROM doit obligatoirement avoir un alias."
+    },
+    {
+      "id": "subq-05",
+      "category": "12. Sous-requêtes",
+      "title": "Sous-requête corrélée",
+      "difficulty": "Difficile",
+      "prompt": "Affiche `product_name`, `category_id` et `unit_price` des produits dont le prix est supérieur au prix moyen de LEUR PROPRE catégorie (pas la moyenne globale).",
+      "solution": "SELECT product_name, category_id, unit_price FROM products p WHERE unit_price > (SELECT AVG(unit_price) FROM products p2 WHERE p2.category_id = p.category_id);",
+      "orderMatters": false,
+      "hint": "Dans une sous-requête corrélée, la sous-requête fait référence à une colonne de la requête externe (ici via l'alias p)."
+    },
+    {
+      "id": "cte-01",
+      "category": "13. CTE (WITH)",
+      "title": "CTE simple",
+      "difficulty": "Facile",
+      "prompt": "Définis une CTE nommée `expensive_products` qui sélectionne `product_name` et `unit_price` des produits dont le prix dépasse 50, puis affiche tout son contenu.",
+      "solution": "WITH expensive_products AS (SELECT product_name, unit_price FROM products WHERE unit_price > 50) SELECT * FROM expensive_products;",
+      "orderMatters": false,
+      "hint": "WITH nom_cte AS (... requête ...) SELECT * FROM nom_cte;"
+    },
+    {
+      "id": "cte-02",
+      "category": "13. CTE (WITH)",
+      "title": "CTE avec agrégation et filtre",
+      "difficulty": "Moyen",
+      "prompt": "Définis une CTE nommée `order_counts` (colonnes `customer_id`, `nb_orders`) qui compte le nombre de commandes par client, puis affiche uniquement les clients ayant passé plus de 3 commandes, triés par `nb_orders` décroissant puis `customer_id` croissant.",
+      "solution": "WITH order_counts AS (SELECT customer_id, COUNT(*) AS nb_orders FROM orders GROUP BY customer_id) SELECT * FROM order_counts WHERE nb_orders > 3 ORDER BY nb_orders DESC, customer_id ASC;",
+      "orderMatters": true,
+      "hint": "Construis d'abord la CTE avec GROUP BY, puis filtre son résultat avec un WHERE externe (équivalent d'un HAVING, mais appliqué après coup sur la CTE)."
+    },
+    {
+      "id": "cte-03",
+      "category": "13. CTE (WITH)",
+      "title": "CTE combinée à un JOIN",
+      "difficulty": "Difficile",
+      "prompt": "Définis une CTE nommée `cat_avg` (colonnes `category_id`, `avg_price`) qui calcule le prix moyen par catégorie de produit, puis joins-la à `categories` pour afficher `category_name` et `avg_price` (arrondi à 2 décimales), triés par `avg_price` décroissant.",
+      "solution": "WITH cat_avg AS (SELECT category_id, AVG(unit_price) AS avg_price FROM products GROUP BY category_id) SELECT c.category_name, ROUND(ca.avg_price, 2) AS avg_price FROM cat_avg ca JOIN categories c ON ca.category_id = c.category_id ORDER BY avg_price DESC;",
+      "orderMatters": true,
+      "hint": "Une CTE se comporte comme une table normale : elle peut être jointe à d'autres tables."
+    },
+    {
+      "id": "window-01",
+      "category": "14. Fonctions fenêtre (Window functions)",
+      "title": "AVG() OVER (PARTITION BY)",
+      "difficulty": "Moyen",
+      "prompt": "Pour chaque produit, affiche `product_name`, `category_id`, `unit_price` et le prix moyen de sa catégorie (`avg_price_category`) calculé avec une fonction fenêtre, SANS réduire le nombre de lignes retournées.",
+      "solution": "SELECT product_name, category_id, unit_price, AVG(unit_price) OVER (PARTITION BY category_id) AS avg_price_category FROM products;",
+      "orderMatters": false,
+      "hint": "AVG(...) OVER (PARTITION BY colonne) calcule la moyenne par groupe sans fusionner les lignes, contrairement à GROUP BY."
+    },
+    {
+      "id": "window-02",
+      "category": "14. Fonctions fenêtre (Window functions)",
+      "title": "ROW_NUMBER()",
+      "difficulty": "Moyen",
+      "prompt": "Affiche `product_name`, `unit_price` et un numéro de ligne `rn` qui numérote les produits du moins cher au plus cher (en cas d'égalité de prix, ordonne ensuite par `product_id` croissant).",
+      "solution": "SELECT product_name, unit_price, ROW_NUMBER() OVER (ORDER BY unit_price ASC, product_id ASC) AS rn FROM products;",
+      "orderMatters": true,
+      "hint": "ROW_NUMBER() OVER (ORDER BY ...) attribue un numéro unique et séquentiel à chaque ligne."
+    },
+    {
+      "id": "window-03",
+      "category": "14. Fonctions fenêtre (Window functions)",
+      "title": "RANK() avec PARTITION BY",
+      "difficulty": "Difficile",
+      "prompt": "Pour chaque produit, affiche `product_name`, `category_id`, `unit_price` et son rang de prix (`price_rank`) du plus cher au moins cher, calculé SÉPARÉMENT pour chaque catégorie avec RANK().",
+      "solution": "SELECT product_name, category_id, unit_price, RANK() OVER (PARTITION BY category_id ORDER BY unit_price DESC) AS price_rank FROM products;",
+      "orderMatters": false,
+      "hint": "RANK() attribue le même rang aux ex-aequo, puis saute les rangs suivants (contrairement à DENSE_RANK)."
+    },
+    {
+      "id": "window-04",
+      "category": "14. Fonctions fenêtre (Window functions)",
+      "title": "LAG()",
+      "difficulty": "Difficile",
+      "prompt": "Affiche `order_id`, `order_date` et la date de la commande précédente (`previous_order_date`) lorsque toutes les commandes sont triées par `order_date` (puis par `order_id` en cas d'égalité de date).",
+      "solution": "SELECT order_id, order_date, LAG(order_date) OVER (ORDER BY order_date, order_id) AS previous_order_date FROM orders ORDER BY order_date, order_id;",
+      "orderMatters": true,
+      "hint": "LAG(colonne) OVER (ORDER BY ...) récupère la valeur de la ligne précédente ; la toute première ligne aura NULL."
+    },
+    {
+      "id": "window-05",
+      "category": "14. Fonctions fenêtre (Window functions)",
+      "title": "Somme cumulative",
+      "difficulty": "Difficile",
+      "prompt": "Affiche `order_item_id`, `unit_price` et la somme cumulative des prix (`running_total`) au fur et à mesure que `order_item_id` augmente.",
+      "solution": "SELECT order_item_id, unit_price, SUM(unit_price) OVER (ORDER BY order_item_id) AS running_total FROM order_items ORDER BY order_item_id;",
+      "orderMatters": true,
+      "hint": "SUM(...) OVER (ORDER BY ...) sans PARTITION BY calcule une somme cumulative sur l'ensemble du résultat."
+    }
+  ]
+}

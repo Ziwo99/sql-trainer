@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SQL Trainer</title>
+<meta name="description" content="Entraînement SQL façon LeetCode, avec correction automatique." />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<div id="app" class="app">
+
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <h1 class="brand">
+        <span class="brand-mark">SQL</span>Trainer
+      </h1>
+      <div class="progress-block">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <p id="progress-label" class="progress-label">0 / 0 exercices résolus</p>
+      </div>
+    </div>
+
+    <nav id="category-nav" class="category-nav" aria-label="Exercices par catégorie"></nav>
+
+    <div class="sidebar-bottom">
+      <button id="reset-btn" class="btn btn-ghost btn-small" type="button">
+        Réinitialiser ma progression
+      </button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab active" data-tab="exercise" role="tab" aria-selected="true" type="button">Exercice</button>
+      <button class="tab" data-tab="tables" role="tab" aria-selected="false" type="button">Tables</button>
+    </nav>
+
+    <section id="tab-exercise" class="tab-panel active" role="tabpanel">
+      <header class="exercise-header">
+        <div class="exercise-heading">
+          <h2 id="exercise-title">—</h2>
+          <div class="badges">
+            <span id="badge-category" class="badge badge-category"></span>
+            <span id="badge-difficulty" class="badge badge-difficulty"></span>
+          </div>
+        </div>
+      </header>
+
+      <p id="exercise-prompt" class="prompt"></p>
+
+      <div class="editor-block">
+        <label class="editor-label" for="sql-input">Ta requête SQL</label>
+        <textarea
+          id="sql-input"
+          class="sql-input"
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off"
+          placeholder="-- Écris ta requête SQL ici"
+          rows="7"
+        ></textarea>
+        <div class="editor-actions">
+          <button id="run-btn" class="btn btn-primary" type="button">Exécuter et vérifier</button>
+        </div>
+      </div>
+
+      <div id="feedback" class="feedback" hidden role="status"></div>
+
+      <div id="result-wrapper" class="result-wrapper" hidden>
+        <h3 class="result-title">Résultat</h3>
+        <div id="result-table" class="table-scroll"></div>
+      </div>
+
+      <div class="extras">
+        <details id="hint-details">
+          <summary>💡 Indice</summary>
+          <p id="exercise-hint"></p>
+        </details>
+        <details id="solution-details">
+          <summary>🔎 Voir la solution</summary>
+          <pre id="exercise-solution" class="code-block"></pre>
+        </details>
+      </div>
+    </section>
+
+    <section id="tab-tables" class="tab-panel" role="tabpanel">
+      <p class="tables-intro">
+        Explore les tables disponibles pour tous les exercices avant d'écrire tes requêtes.
+      </p>
+      <div id="table-tabs" class="table-tabs"></div>
+      <div id="table-content"></div>
+    </section>
+  </main>
+
+</div>
+
+<div id="loading" class="loading-overlay">
+  <div class="loading-box">
+    <div class="spinner" aria-hidden="true"></div>
+    <p>Chargement de la base de données…</p>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
