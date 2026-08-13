@@ -1,0 +1,6718 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Théorie SQL — SQL Trainer</title>
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="../css/theory.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <h1 class="brand"><span class="brand-mark">SQL</span>Trainer</h1>
+      <a href="../index.html" class="btn btn-ghost btn-small theory-back">&larr; Retour aux exercices</a>
+    </div>
+    <nav class="category-nav theory-nav" aria-label="Sommaire théorie">
+      <a class="theory-nav-group theory-nav-flat" href="#1-select">1. SELECT</a>
+<a class="theory-nav-group theory-nav-flat" href="#2-where">2. WHERE</a>
+<details class="theory-nav-group" open><summary><a class="theory-nav-title" href="#operator">OPERATOR</a></summary><div class="theory-nav-subs"><a class="theory-nav-sub" href="#comparison">Comparison</a><a class="theory-nav-sub" href="#logical">Logical</a><a class="theory-nav-sub" href="#arithmetic">Arithmetic</a><a class="theory-nav-sub" href="#pattern-matching">Pattern Matching</a><a class="theory-nav-sub" href="#range">Range</a><a class="theory-nav-sub" href="#membership">Membership</a><a class="theory-nav-sub" href="#null">NULL</a><a class="theory-nav-sub" href="#subquery-operators">Subquery Operators</a><a class="theory-nav-sub" href="#set-operators">Set Operators</a><a class="theory-nav-sub" href="#string-operators">String Operators</a></div></details>
+<a class="theory-nav-group theory-nav-flat" href="#3-order-by">3. ORDER BY</a>
+<a class="theory-nav-group theory-nav-flat" href="#4-case">4. CASE</a>
+<a class="theory-nav-group theory-nav-flat" href="#5-aliases">5. ALIASES</a>
+<a class="theory-nav-group theory-nav-flat" href="#6-text-functions">6. TEXT FUNCTIONS</a>
+<a class="theory-nav-group theory-nav-flat" href="#7-regular-expressions-regex">7. REGULAR EXPRESSIONS (REGEX)</a>
+<a class="theory-nav-group theory-nav-flat" href="#8-numeric-functions">8. NUMERIC FUNCTIONS</a>
+<a class="theory-nav-group theory-nav-flat" href="#9-dates-functions">9. DATES FUNCTIONS</a>
+<a class="theory-nav-group theory-nav-flat" href="#10-cast-and-type-conversions">10. CAST AND TYPE CONVERSIONS</a>
+<details class="theory-nav-group" open><summary><a class="theory-nav-title" href="#11-aggregate-fuctions">11. AGGREGATE FUCTIONS</a></summary><div class="theory-nav-subs"><a class="theory-nav-sub" href="#min">MIN()</a><a class="theory-nav-sub" href="#max">MAX()</a><a class="theory-nav-sub" href="#count">COUNT()</a><a class="theory-nav-sub" href="#sum">SUM()</a><a class="theory-nav-sub" href="#avg">AVG()</a></div></details>
+<a class="theory-nav-group theory-nav-flat" href="#12-group-by">12. GROUP BY</a>
+<a class="theory-nav-group theory-nav-flat" href="#13-having">13. HAVING</a>
+<details class="theory-nav-group" open><summary><a class="theory-nav-title" href="#14-joins">14. JOINs</a></summary><div class="theory-nav-subs"><a class="theory-nav-sub" href="#inner-join">INNER JOIN</a><a class="theory-nav-sub" href="#left-join">LEFT JOIN</a><a class="theory-nav-sub" href="#right-join">RIGHT JOIN</a><a class="theory-nav-sub" href="#full-join">FULL JOIN</a><a class="theory-nav-sub" href="#self-join">SELF JOIN</a><a class="theory-nav-sub" href="#cross-join">CROSS JOIN</a></div></details>
+<details class="theory-nav-group" open><summary><a class="theory-nav-title" href="#15-subqueries">15. SUBQUERIES</a></summary><div class="theory-nav-subs"><a class="theory-nav-sub" href="#subquery-in-where">SUBQUERY in WHERE</a><a class="theory-nav-sub" href="#subquery-in-from">SUBQUERY in FROM</a><a class="theory-nav-sub" href="#subquery-in-select">SUBQUERY in SELECT</a><a class="theory-nav-sub" href="#correlated-subquery">CORRELATED SUBQUERY</a></div></details>
+<a class="theory-nav-group theory-nav-flat" href="#16-common-table-expression-cte">16. COMMON TABLE EXPRESSION (CTE)</a>
+<details class="theory-nav-group" open><summary><a class="theory-nav-title" href="#17-window-functions">17. WINDOW FUNCTIONS</a></summary><div class="theory-nav-subs"><a class="theory-nav-sub" href="#aggregate-vs-window-functions">AGGREGATE VS WINDOW FUNCTIONS</a><a class="theory-nav-sub" href="#syntax">SYNTAX</a><a class="theory-nav-sub" href="#ranking-functions">RANKING FUNCTIONS</a><a class="theory-nav-sub" href="#value-functions">VALUE FUNCTIONS</a><a class="theory-nav-sub" href="#aggregate-window-functions">AGGREGATE WINDOW FUNCTIONS</a><a class="theory-nav-sub" href="#mooving-windows">MOOVING WINDOWS</a></div></details>
+    </nav>
+  </aside>
+  <main class="content theory-content">
+    <h2 id="1-select">1. SELECT</h2>
+<p><strong><code>SELECT</code></strong> is used to retrieve data from one or more columns of a table</p>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name, last_name, city
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia</td>
+      <td>Rossi</td>
+      <td>Milan</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah</td>
+      <td>Garcia</td>
+      <td>Barcelona</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Sofia</td>
+      <td>Rossi</td>
+      <td>Milan</td>
+      <td>Italy</td>
+      <td>sofia.rossi@email.com</td>
+      <td>2024-03-11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+      <td>France</td>
+      <td>lucas.dubois@email.com</td>
+      <td>2024-03-25</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+      <td>Switzerland</td>
+      <td>emma.schneider@email.com</td>
+      <td>2024-04-01</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Noah</td>
+      <td>Garcia</td>
+      <td>Barcelona</td>
+      <td>Spain</td>
+      <td>noah.garcia@email.com</td>
+      <td>2024-04-18</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT DISTINCT country
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Spain</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT DISTINCT country, city
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+      <td>Geneva</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Switzerland</td>
+      <td>Lausanne</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Italy</td>
+      <td>Milan</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>France</td>
+      <td>Lyon</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Switzerland</td>
+      <td>Zurich</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Spain</td>
+      <td>Barcelona</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>France</td>
+      <td>Paris</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id, quantity, unit_price, quantity * unit_price
+FROM order_items;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>unit_price</th>
+      <th>quantity * unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>18.5</td>
+      <td>37.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>6</td>
+      <td>2.5</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>1</td>
+      <td>24.9</td>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>2</td>
+      <td>9.9</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>1</td>
+      <td>29.9</td>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>3</td>
+      <td>7.9</td>
+      <td>23.7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>4</td>
+      <td>1</td>
+      <td>79.0</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>5</td>
+      <td>4</td>
+      <td>2.5</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+      <td>10</td>
+      <td>2.5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6</td>
+      <td>1</td>
+      <td>44.0</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>6</td>
+      <td>1</td>
+      <td>18.5</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>7</td>
+      <td>2</td>
+      <td>24.9</td>
+      <td>49.8</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>7</td>
+      <td>3</td>
+      <td>9.9</td>
+      <td>29.7</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>8</td>
+      <td>2</td>
+      <td>29.9</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>8</td>
+      <td>5</td>
+      <td>2.5</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>9</td>
+      <td>4</td>
+      <td>7.9</td>
+      <td>31.6</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>9</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>10</td>
+      <td>1</td>
+      <td>79.0</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>10</td>
+      <td>1</td>
+      <td>18.5</td>
+      <td>18.5</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name || &#x27; &#x27; || last_name
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name || ' ' || last_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim Benali</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia Rossi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas Dubois</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma Schneider</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah Garcia</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya Haddad</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo Moreau</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name || &#x27; &#x27; || last_name AS [Full name]
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Full name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim Benali</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia Rossi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas Dubois</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma Schneider</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah Garcia</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya Haddad</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo Moreau</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT &#x27;employee&#x27; AS role, first_name || &#x27; &#x27; || last_name AS [Full name]
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>role</th>
+      <th>Full name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>employee</td>
+      <td>Alice Martin</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>employee</td>
+      <td>Karim Benali</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>employee</td>
+      <td>Sofia Rossi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>employee</td>
+      <td>Lucas Dubois</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>employee</td>
+      <td>Emma Schneider</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>employee</td>
+      <td>Noah Garcia</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>employee</td>
+      <td>Maya Haddad</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>employee</td>
+      <td>Leo Moreau</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+LIMIT 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Sofia</td>
+      <td>Rossi</td>
+      <td>Milan</td>
+      <td>Italy</td>
+      <td>sofia.rossi@email.com</td>
+      <td>2024-03-11</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+WHERE country = &#x27;Switzerland&#x27;
+ORDER BY first_name
+LIMIT 3</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+      <td>Switzerland</td>
+      <td>emma.schneider@email.com</td>
+      <td>2024-04-01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="2-where">2. WHERE</h2>
+<p>The <strong><code>WHERE</code></strong> clause is used to filter rows in a query (return only rows that satisfy a given condition)</p>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+WHERE Country = &#x27;France&#x27;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+      <td>France</td>
+      <td>lucas.dubois@email.com</td>
+      <td>2024-03-25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+WHERE customer_id &gt; 4;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5</td>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+      <td>Switzerland</td>
+      <td>emma.schneider@email.com</td>
+      <td>2024-04-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>Noah</td>
+      <td>Garcia</td>
+      <td>Barcelona</td>
+      <td>Spain</td>
+      <td>noah.garcia@email.com</td>
+      <td>2024-04-18</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM Customers
+WHERE NOT country = &#x27;Switzerland&#x27;;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>Sofia</td>
+      <td>Rossi</td>
+      <td>Milan</td>
+      <td>Italy</td>
+      <td>sofia.rossi@email.com</td>
+      <td>2024-03-11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+      <td>France</td>
+      <td>lucas.dubois@email.com</td>
+      <td>2024-03-25</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6</td>
+      <td>Noah</td>
+      <td>Garcia</td>
+      <td>Barcelona</td>
+      <td>Spain</td>
+      <td>noah.garcia@email.com</td>
+      <td>2024-04-18</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM Customers
+WHERE country = &#x27;Switzerland&#x27;
+    AND city = &#x27;Geneva&#x27;
+    AND customer_id &gt; 6;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM Customers
+WHERE country = &#x27;Switzerland&#x27;
+    OR country = &#x27;France&#x27;
+    OR customer_id &gt; 6;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+      <td>France</td>
+      <td>lucas.dubois@email.com</td>
+      <td>2024-03-25</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+      <td>Switzerland</td>
+      <td>emma.schneider@email.com</td>
+      <td>2024-04-01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM Customers
+WHERE country = &#x27;Switzerland&#x27;
+    AND (city = &#x27;Geneva&#x27;
+    OR city = &#x27;Lausanne&#x27;);</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="operator">OPERATOR</h2>
+<h3 id="comparison">Comparison</h3>
+<ul><li><strong><code>=</code></strong>   -- equal to</li><li><strong><code>&lt;&gt;</code></strong>  -- not equal to</li><li><strong><code>!=</code></strong>  -- not equal to (DBMS dependent)</li><li><strong><code>&gt;</code></strong>   -- greater than</li><li><strong><code>&lt;</code></strong>   -- less than</li><li><strong><code>&gt;=</code></strong>  -- greater than or equal to</li><li><strong><code>&lt;=</code></strong>  -- less than or equal to</li></ul>
+<h3 id="logical">Logical</h3>
+<ul><li><strong><code>AND</code></strong> -- returns true if both conditions are true</li><li><strong><code>OR</code></strong>  -- returns true if at least one condition is true</li><li><strong><code>NOT</code></strong> -- negates a condition</li></ul>
+<h3 id="arithmetic">Arithmetic</h3>
+<ul><li><strong><code>+</code></strong> -- addition</li><li><strong><code>-</code></strong> -- subtraction</li><li>**<code>*</code>** -- multiplication</li><li><strong><code>/</code></strong> -- division</li><li><strong><code>%</code></strong> -- modulo (DBMS dependent)</li></ul>
+<h3 id="pattern-matching">Pattern Matching</h3>
+<ul><li><strong><code>LIKE</code></strong>  -- matches a specified pattern</li></ul>
+<p><strong>Pattern Wildcards</strong></p>
+<ul><li><strong><code>%</code></strong> -- matches zero or more characters</li><li><strong><code>_</code></strong> -- matches exactly one character</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM Customers
+WHERE last_name LIKE &#x27;R%&#x27;;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sofia</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM Customers
+WHERE last_name LIKE &#x27;_o%&#x27;;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sofia</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Leo</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="range">Range</h3>
+<ul><li><strong><code>BETWEEN</code></strong>     -- checks if a value is within a range</li><li><strong><code>NOT BETWEEN</code></strong> -- checks if a value is outside a range</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT unit_price
+FROM Products
+WHERE unit_price BETWEEN 10 AND 20;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT unit_price
+FROM Products
+WHERE unit_price NOT BETWEEN 10 AND 20;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>9.9</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>44.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name
+FROM Products
+WHERE product_name BETWEEN &#x27;Coffee Beans 1kg&#x27; AND &#x27;SQL for beginners&#x27;;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mechanical Keyboard</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>SQL for Beginners</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Old Headphones</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT status FROM Orders
+WHERE order_date BETWEEN &#x27;2025-01-01&#x27; AND &#x27;2025-04-01&#x27;;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>cancelled</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>delivered</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="membership">Membership</h3>
+<ul><li><strong><code>IN</code></strong>     -- checks if a value matches any value in a list</li><li><strong><code>NOT IN</code></strong> -- checks if a value does not match any value in a list</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM Customers
+WHERE country IN (&#x27;Swiss&#x27;, &#x27;France&#x27;, &#x27;Spain&#x27;)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Noah</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Leo</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM Customers
+WHERE country NOT IN (&#x27;Swiss&#x27;, &#x27;France&#x27;, &#x27;Spain&#x27;)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Emma</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Maya</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM Customers
+WHERE customer_id NOT IN (SELECT customer_id FROM orders);</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Leo</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="null">NULL</h3>
+<ul><li><strong><code>IS NULL</code></strong>     -- checks if a value is NULL</li><li><strong><code>IS NOT NULL</code></strong> -- checks if a value is not NULL</li></ul>
+<p>SQL has some built-in functions to handle NULL values (default value if null):</p>
+<ul><li><strong><code>COALESCE()</code></strong>     -- MYSQL, SQL Server and Oracle</li><li><strong><code>IFNULL()</code></strong> -- MYSQL</li></ul>
+<p>IFNULL() is specific to MYSQL, otherwise :</p>
+<ul><li><strong><code>ISNULL()</code></strong>     -- SQL Server</li><li><strong><code>NVL()</code></strong> -- Oracle</li><li><strong><code>IsNull()</code></strong>     -- MS Access</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+WHERE customer_id IS NULL;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM customers
+WHERE customer_id IS NOT NULL;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customer_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>city</th>
+      <th>country</th>
+      <th>email</th>
+      <th>signup_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Alice</td>
+      <td>Martin</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>alice.martin@email.com</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Karim</td>
+      <td>Benali</td>
+      <td>Lausanne</td>
+      <td>Switzerland</td>
+      <td>karim.benali@email.com</td>
+      <td>2024-02-03</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Sofia</td>
+      <td>Rossi</td>
+      <td>Milan</td>
+      <td>Italy</td>
+      <td>sofia.rossi@email.com</td>
+      <td>2024-03-11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Lucas</td>
+      <td>Dubois</td>
+      <td>Lyon</td>
+      <td>France</td>
+      <td>lucas.dubois@email.com</td>
+      <td>2024-03-25</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Emma</td>
+      <td>Schneider</td>
+      <td>Zurich</td>
+      <td>Switzerland</td>
+      <td>emma.schneider@email.com</td>
+      <td>2024-04-01</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Noah</td>
+      <td>Garcia</td>
+      <td>Barcelona</td>
+      <td>Spain</td>
+      <td>noah.garcia@email.com</td>
+      <td>2024-04-18</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>Maya</td>
+      <td>Haddad</td>
+      <td>Geneva</td>
+      <td>Switzerland</td>
+      <td>maya.haddad@email.com</td>
+      <td>2024-05-07</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>Leo</td>
+      <td>Moreau</td>
+      <td>Paris</td>
+      <td>France</td>
+      <td>leo.moreau@email.com</td>
+      <td>2024-05-21</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT IFNULL(customer_id, 0)
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>IFNULL(customer_id, 0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name, COALESCE(email, city, country, &#x27;no more information&#x27;)
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+      <th>COALESCE(email, city, country, 'no more information')</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+      <td>alice.martin@email.com</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim</td>
+      <td>karim.benali@email.com</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia</td>
+      <td>sofia.rossi@email.com</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas</td>
+      <td>lucas.dubois@email.com</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma</td>
+      <td>emma.schneider@email.com</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah</td>
+      <td>noah.garcia@email.com</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya</td>
+      <td>maya.haddad@email.com</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo</td>
+      <td>leo.moreau@email.com</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="subquery-operators">Subquery Operators</h3>
+<ul><li><strong><code>EXISTS</code></strong> — returns true if the subquery returns at least one row</li><li><strong><code>IN</code></strong> — compares a value with any value returned by a subquery</li><li><strong><code>ANY</code></strong> — returns true if the comparison is true for at least one value returned by the subquery</li><li><strong><code>ALL</code></strong> — returns true if the comparison is true for all values returned by the subquery</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name
+FROM products AS p
+WHERE EXISTS (
+    SELECT 1
+    FROM order_items AS o
+    WHERE p.product_id = o.product_id AND o.unit_price &gt; 15
+)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SQL for Beginners</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Advanced Data Modeling</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name
+FROM products
+WHERE product_id IN (
+    SELECT product_id
+    FROM order_items
+    WHERE quantity &gt; 3
+)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Green Tea Box</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Protein Bar</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Potato Chips</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+WHERE unit_price &gt; ANY (
+    SELECT unit_price
+    FROM products
+    WHERE category_id = 1
+)</code></pre></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+WHERE unit_price &gt; ALL (
+    SELECT unit_price
+    FROM products
+    WHERE category_id = 1
+)</code></pre></div>
+<h3 id="set-operators">Set Operators</h3>
+<ul><li><strong><code>UNION</code></strong>      -- combines results and removes duplicates</li><li><strong><code>UNION ALL</code></strong>  -- combines results and keeps duplicates</li><li><strong><code>INTERSECT</code></strong>  -- returns rows present in both queries</li><li><strong><code>EXCEPT</code></strong>     -- returns rows from the first query not in the second</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT country
+FROM customers
+UNION
+SELECT country
+FROM employees</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Algeria</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Spain</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Switzerland</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT country
+FROM customers
+UNION ALL
+SELECT country
+FROM employees</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Spain</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Switzerland</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Algeria</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>France</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT country
+FROM customers
+INTERSECT
+SELECT country
+FROM employees</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>France</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Switzerland</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT country
+FROM customers
+EXCEPT
+SELECT country
+FROM employees</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Spain</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="string-operators">String Operators</h3>
+<ul><li><strong><code>||</code></strong>        -- string concatenation (PostgreSQL, Oracle, sqlite)</li><li><strong><code>CONCAT()</code></strong>  -- concatenates strings (MYSQL)</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name || &#x27; &#x27; || last_name AS [Full name 1], CONCAT(first_name, &#x27; &#x27;, last_name) AS [Full name 2]
+FROM customers;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Full name 1</th>
+      <th>Full name 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+      <td>Alice Martin</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim Benali</td>
+      <td>Karim Benali</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia Rossi</td>
+      <td>Sofia Rossi</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas Dubois</td>
+      <td>Lucas Dubois</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma Schneider</td>
+      <td>Emma Schneider</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah Garcia</td>
+      <td>Noah Garcia</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya Haddad</td>
+      <td>Maya Haddad</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo Moreau</td>
+      <td>Leo Moreau</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="3-order-by">3. ORDER BY</h2>
+<p>The <strong><code>ORDER BY</code></strong> clause is used to sort the result set of a query (organize rows in ascending or descending order based on one or more columns).</p>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+ORDER BY unit_price;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>Protein Bar</td>
+      <td>12</td>
+      <td>2.5</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>Potato Chips</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>150</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Green Tea Box</td>
+      <td>11</td>
+      <td>7.9</td>
+      <td>85</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>USB-C Cable</td>
+      <td>3</td>
+      <td>9.9</td>
+      <td>200</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>Old Headphones</td>
+      <td>3</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.5</td>
+      <td>120</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>5</td>
+      <td>Wireless Mouse</td>
+      <td>3</td>
+      <td>24.9</td>
+      <td>40</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+ORDER BY unit_price DESC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>Wireless Mouse</td>
+      <td>3</td>
+      <td>24.9</td>
+      <td>40</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.5</td>
+      <td>120</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>Old Headphones</td>
+      <td>3</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>USB-C Cable</td>
+      <td>3</td>
+      <td>9.9</td>
+      <td>200</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>Green Tea Box</td>
+      <td>11</td>
+      <td>7.9</td>
+      <td>85</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3</td>
+      <td>Protein Bar</td>
+      <td>12</td>
+      <td>2.5</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4</td>
+      <td>Potato Chips</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>150</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+ORDER BY product_name;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.5</td>
+      <td>120</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Green Tea Box</td>
+      <td>11</td>
+      <td>7.9</td>
+      <td>85</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>Old Headphones</td>
+      <td>3</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>4</td>
+      <td>Potato Chips</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>150</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3</td>
+      <td>Protein Bar</td>
+      <td>12</td>
+      <td>2.5</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>7</td>
+      <td>USB-C Cable</td>
+      <td>3</td>
+      <td>9.9</td>
+      <td>200</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>Wireless Mouse</td>
+      <td>3</td>
+      <td>24.9</td>
+      <td>40</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM orders
+ORDER BY order_date;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>customer_id</th>
+      <th>employee_id</th>
+      <th>order_date</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2025-01-10</td>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2025-01-12</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2025-01-18</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2025-02-02</td>
+      <td>cancelled</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>4</td>
+      <td>1</td>
+      <td>2025-02-08</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>5</td>
+      <td>3</td>
+      <td>2025-02-18</td>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>6</td>
+      <td>2</td>
+      <td>2025-03-01</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>7</td>
+      <td>1</td>
+      <td>2025-03-03</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>7</td>
+      <td>3</td>
+      <td>2025-03-05</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2025-03-07</td>
+      <td>delivered</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+ORDER BY unit_price DESC, product_name ASC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>Wireless Mouse</td>
+      <td>3</td>
+      <td>24.9</td>
+      <td>40</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.5</td>
+      <td>120</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>Old Headphones</td>
+      <td>3</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>USB-C Cable</td>
+      <td>3</td>
+      <td>9.9</td>
+      <td>200</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2</td>
+      <td>Green Tea Box</td>
+      <td>11</td>
+      <td>7.9</td>
+      <td>85</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4</td>
+      <td>Potato Chips</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>150</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>3</td>
+      <td>Protein Bar</td>
+      <td>12</td>
+      <td>2.5</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name
+FROM products
+ORDER BY unit_price DESC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mechanical Keyboard</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Advanced Data Modeling</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SQL for Beginners</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Wireless Mouse</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Coffee Beans 1kg</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Old Headphones</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Green Tea Box</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Protein Bar</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Potato Chips</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id, unit_price * quantity as [Total price]
+FROM order_items
+ORDER BY [Total price] DESC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>Total price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>49.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>37.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9</td>
+      <td>31.6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>7</td>
+      <td>29.7</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>3</td>
+      <td>23.7</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>6</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>10</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>8</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>5</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>9</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id, unit_price, quantity
+FROM order_items
+ORDER BY unit_price * quantity DESC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>unit_price</th>
+      <th>quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>79.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>79.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>29.9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>24.9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>44.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>18.5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9</td>
+      <td>7.9</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>29.9</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>7</td>
+      <td>9.9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>2.5</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>24.9</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>3</td>
+      <td>7.9</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2</td>
+      <td>9.9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>6</td>
+      <td>18.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>10</td>
+      <td>18.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>2.5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>8</td>
+      <td>2.5</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>5</td>
+      <td>2.5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>9</td>
+      <td>2.5</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+ORDER BY unit_price DESC
+LIMIT 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="4-case">4. CASE</h2>
+<p>CASE expression is used to create conditional logic in SQL (return different values depending on one or more conditions)</p>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price as price,
+  CASE
+    WHEN unit_price &lt; 20 THEN &quot;Low Cost&quot;
+    WHEN unit_price BETWEEN 20 and 50 THEN &quot;Medium Cost&quot;
+    ELSE &quot;High Cost&quot;
+  END AS PriceCategory
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>price</th>
+      <th>PriceCategory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>18.5</td>
+      <td>Low Cost</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>7.9</td>
+      <td>Low Cost</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>2.5</td>
+      <td>Low Cost</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+      <td>2.5</td>
+      <td>Low Cost</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+      <td>Medium Cost</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+      <td>High Cost</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+      <td>9.9</td>
+      <td>Low Cost</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+      <td>Medium Cost</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+      <td>Medium Cost</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Old Headphones</td>
+      <td>15.0</td>
+      <td>Low Cost</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id,
+  CASE
+    WHEN status IN (&#x27;shipped&#x27;, &#x27;delivered&#x27;) THEN &quot;OK&quot;
+    WHEN status = &#x27;pending&#x27; OR status = &#x27;cancelled&#x27; THEN &quot;NOT OK&quot;
+    ELSE &quot;IDK&quot;
+  END AS status_eval
+FROM orders</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>status_eval</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>NOT OK</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>NOT OK</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>NOT OK</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>NOT OK</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>OK</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id, status
+FROM orders
+ORDER BY
+  CASE
+    WHEN status = &#x27;delivered&#x27; THEN 1
+    WHEN status = &#x27;shipped&#x27; THEN 2
+    WHEN status = &#x27;pending&#x27; THEN 3
+    WHEN status = &#x27;cancelled&#x27; THEN 4
+  END</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10</td>
+      <td>delivered</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>shipped</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>pending</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4</td>
+      <td>cancelled</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT
+  CASE
+    WHEN unit_price &lt; 20 THEN &quot;Low Cost&quot;
+    WHEN unit_price BETWEEN 20 and 50 THEN &quot;Medium Cost&quot;
+    ELSE &quot;High Cost&quot;
+  END AS PriceCategory,
+  COUNT(*) as count
+FROM products
+GROUP BY
+  PriceCategory
+ORDER BY
+  CASE
+    WHEN unit_price &lt; 20 THEN 1
+    WHEN unit_price BETWEEN 20 and 50 THEN 2
+    ELSE 3
+  END</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PriceCategory</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Low Cost</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Medium Cost</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>High Cost</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT
+  SUM(CASE WHEN o.status = &#x27;delivered&#x27; OR status = &#x27;shipped&#x27; THEN oi.unit_price*oi.quantity ELSE 0 END) as OK_amount,
+  SUM(CASE WHEN o.status = &#x27;pending&#x27; OR status = &#x27;cancelled&#x27; THEN oi.unit_price*oi.quantity ELSE 0 END) as NOT_OK_amount
+FROM order_items AS oi
+JOIN orders AS o
+ON o.order_id = oi.order_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OK_amount</th>
+      <th>NOT_OK_amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>372.9</td>
+      <td>239.8</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT
+  SUM(CASE WHEN o.status = &#x27;delivered&#x27; OR status = &#x27;shipped&#x27; THEN 1 ELSE 0 END) as OK_count,
+  SUM(CASE WHEN o.status = &#x27;pending&#x27; OR status = &#x27;cancelled&#x27; THEN 1 ELSE 0 END) as NOT_OK_count
+FROM orders o</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OK_count</th>
+      <th>NOT_OK_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="5-aliases">5. ALIASES</h2>
+<p>An alias is a temporary name given to a column or a table in a query.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT AVG(unit_price) AS avgPrice
+FROM products AS prd</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>avgPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>23.41</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT AVG(unit_price) AS [Average Price], SUM(unit_price) AS &quot;Total Price&quot;
+FROM products AS prd</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Average Price</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>23.41</td>
+      <td>234.1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name || &#x27; &#x27; || last_name as [Full name], city || &#x27;, &#x27; || country as Location
+FROM customers</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Full name</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+      <td>Geneva, Switzerland</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Karim Benali</td>
+      <td>Lausanne, Switzerland</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sofia Rossi</td>
+      <td>Milan, Italy</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lucas Dubois</td>
+      <td>Lyon, France</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Emma Schneider</td>
+      <td>Zurich, Switzerland</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Noah Garcia</td>
+      <td>Barcelona, Spain</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Maya Haddad</td>
+      <td>Geneva, Switzerland</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Leo Moreau</td>
+      <td>Paris, France</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT o.order_id, SUM(unit_price) as &quot;Total Price&quot;
+FROM orders AS o
+JOIN order_items AS oi
+ON o.order_id = oi.order_id
+GROUP BY o.order_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>34.8</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>37.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>62.5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>34.8</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>32.4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>10.4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>97.5</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT a.first_name || &quot; &quot; || a.last_name AS [Customer name (a)], b.first_name || &quot; &quot; || b.last_name AS [Customer name (b)], a.city
+FROM customers AS a, customers AS b
+WHERE a.customer_id &lt;&gt; b.customer_id
+AND a.city = b.city
+ORDER BY a.city</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Customer name (a)</th>
+      <th>Customer name (b)</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+      <td>Maya Haddad</td>
+      <td>Geneva</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Maya Haddad</td>
+      <td>Alice Martin</td>
+      <td>Geneva</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT order_id, unit_price * quantity as [Total price]
+FROM order_items
+ORDER BY [Total price] DESC;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>Total price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>49.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>37.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9</td>
+      <td>31.6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>7</td>
+      <td>29.7</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>5</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>3</td>
+      <td>23.7</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>6</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>10</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>8</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>5</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>9</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="6-text-functions">6. TEXT FUNCTIONS</h2>
+<p>Text functions are used to manipulate and transform string values in SQL.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT LOWER(product_name), UPPER(product_name), TRIM(product_name), LENGTH(product_name), SUBSTR(product_name, 1, 3), REPLACE(product_name, &#x27; &#x27;, &#x27;_&#x27;)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LOWER(product_name)</th>
+      <th>UPPER(product_name)</th>
+      <th>TRIM(product_name)</th>
+      <th>LENGTH(product_name)</th>
+      <th>SUBSTR(product_name, 1, 3)</th>
+      <th>REPLACE(product_name, ' ', '_')</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>coffee beans 1kg</td>
+      <td>COFFEE BEANS 1KG</td>
+      <td>Coffee Beans 1kg</td>
+      <td>16</td>
+      <td>Cof</td>
+      <td>Coffee_Beans_1kg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>green tea box</td>
+      <td>GREEN TEA BOX</td>
+      <td>Green Tea Box</td>
+      <td>13</td>
+      <td>Gre</td>
+      <td>Green_Tea_Box</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>protein bar</td>
+      <td>PROTEIN BAR</td>
+      <td>Protein Bar</td>
+      <td>11</td>
+      <td>Pro</td>
+      <td>Protein_Bar</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>potato chips</td>
+      <td>POTATO CHIPS</td>
+      <td>Potato Chips</td>
+      <td>12</td>
+      <td>Pot</td>
+      <td>Potato_Chips</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>wireless mouse</td>
+      <td>WIRELESS MOUSE</td>
+      <td>Wireless Mouse</td>
+      <td>14</td>
+      <td>Wir</td>
+      <td>Wireless_Mouse</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>mechanical keyboard</td>
+      <td>MECHANICAL KEYBOARD</td>
+      <td>Mechanical Keyboard</td>
+      <td>19</td>
+      <td>Mec</td>
+      <td>Mechanical_Keyboard</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>usb-c cable</td>
+      <td>USB-C CABLE</td>
+      <td>USB-C Cable</td>
+      <td>11</td>
+      <td>USB</td>
+      <td>USB-C_Cable</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>sql for beginners</td>
+      <td>SQL FOR BEGINNERS</td>
+      <td>SQL for Beginners</td>
+      <td>17</td>
+      <td>SQL</td>
+      <td>SQL_for_Beginners</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>advanced data modeling</td>
+      <td>ADVANCED DATA MODELING</td>
+      <td>Advanced Data Modeling</td>
+      <td>22</td>
+      <td>Adv</td>
+      <td>Advanced_Data_Modeling</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>old headphones</td>
+      <td>OLD HEADPHONES</td>
+      <td>Old Headphones</td>
+      <td>14</td>
+      <td>Old</td>
+      <td>Old_Headphones</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT *
+FROM products
+WHERE LENGTH(product_name) &gt; 15;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_id</th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>unit_price</th>
+      <th>stock_quantity</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.5</td>
+      <td>120</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>79.0</td>
+      <td>25</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>29.9</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9</td>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>44.0</td>
+      <td>20</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="7-regular-expressions-regex">7. REGULAR EXPRESSIONS (REGEX)</h2>
+<p><strong>Most useful regex symbols :</strong></p>
+<ul><li><code>^</code> = start of the string</li><li><code>$</code> = end of the string</li><li><code>.</code> = any single character</li><li><code>[abc]</code> = one character from the set</li><li><code>[a-z]</code> = one lowercase letter</li><li><code>[A-Z]</code> = one uppercase letter</li><li><code>[0-9]</code> = one digit</li><li><code>+</code> = one or more occurrences</li><li><code>*</code> = zero or more occurrences</li><li><code>{n}</code> = exactly <code>n</code> occurrences</li></ul>
+<p>In MySQL, <code>REGEXP_LIKE(expr, pattern)</code> is used for advanced pattern matching.</p>
+<p><strong>Common examples</strong> :</p>
+<ul><li><code>REGEXP_LIKE(customer_name, '^b')</code> → matches values that start with <code>b</code></li><li><code>REGEXP_LIKE(customer_name, 'fy$')</code> → matches values that end with <code>fy</code></li><li><code>REGEXP_LIKE(product_code, '[0-9]')</code> → matches values that contain at least one digit</li><li><code>REGEXP_LIKE(customer_code, '^[0-9]+$')</code> → matches values that contain only digits</li><li><code>REGEXP_LIKE(customer_name, '^.{5}$')</code> → matches values with exactly 5 characters</li><li><code>REGEXP_LIKE(product_code, '^[A-Z]{3}[0-9]{4}$')</code> → matches values with 3 uppercase letters followed by 4 digits</li><li><code>REGEXP_LIKE(email, '@company\\.com$')</code> → matches values that end with <code>@company.com</code></li><li><code>REGEXP_LIKE(customer_name, '^b', 'c')</code> → matches values that start with lowercase <code>b</code> only (<code>c</code> = case-sensitive)</li></ul>
+<p><strong>Important note</strong></p>
+<p>Without <code>^</code> and <code>$</code>, MySQL checks whether the pattern appears anywhere in the string.</p>
+<h2 id="8-numeric-functions">8. NUMERIC FUNCTIONS</h2>
+<p>Numeric functions are used to perform calculations and transformations on numbers in SQL.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT unit_price, unit_price + 2, unit_price - 2, unit_price * 2, unit_price / 2, unit_price % 2
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unit_price</th>
+      <th>unit_price + 2</th>
+      <th>unit_price - 2</th>
+      <th>unit_price * 2</th>
+      <th>unit_price / 2</th>
+      <th>unit_price % 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18.5</td>
+      <td>20.5</td>
+      <td>16.5</td>
+      <td>37.0</td>
+      <td>9.25</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.9</td>
+      <td>9.9</td>
+      <td>5.9</td>
+      <td>15.8</td>
+      <td>3.95</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.5</td>
+      <td>4.5</td>
+      <td>0.5</td>
+      <td>5.0</td>
+      <td>1.25</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.5</td>
+      <td>4.5</td>
+      <td>0.5</td>
+      <td>5.0</td>
+      <td>1.25</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>24.9</td>
+      <td>26.9</td>
+      <td>22.9</td>
+      <td>49.8</td>
+      <td>12.45</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>79.0</td>
+      <td>81.0</td>
+      <td>77.0</td>
+      <td>158.0</td>
+      <td>39.50</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9.9</td>
+      <td>11.9</td>
+      <td>7.9</td>
+      <td>19.8</td>
+      <td>4.95</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>29.9</td>
+      <td>31.9</td>
+      <td>27.9</td>
+      <td>59.8</td>
+      <td>14.95</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>44.0</td>
+      <td>46.0</td>
+      <td>42.0</td>
+      <td>88.0</td>
+      <td>22.00</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>15.0</td>
+      <td>17.0</td>
+      <td>13.0</td>
+      <td>30.0</td>
+      <td>7.50</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT unit_price, ROUND(unit_price), ABS(unit_price), CEIL(unit_price), FLOOR(unit_price), MOD(unit_price, 2), POWER(unit_price, 2), SQRT(unit_price)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unit_price</th>
+      <th>ROUND(unit_price)</th>
+      <th>ABS(unit_price)</th>
+      <th>CEIL(unit_price)</th>
+      <th>FLOOR(unit_price)</th>
+      <th>MOD(unit_price, 2)</th>
+      <th>POWER(unit_price, 2)</th>
+      <th>SQRT(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18.5</td>
+      <td>19.0</td>
+      <td>18.5</td>
+      <td>19.0</td>
+      <td>18.0</td>
+      <td>0.5</td>
+      <td>342.25</td>
+      <td>4.301163</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.9</td>
+      <td>8.0</td>
+      <td>7.9</td>
+      <td>8.0</td>
+      <td>7.0</td>
+      <td>1.9</td>
+      <td>62.41</td>
+      <td>2.810694</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.5</td>
+      <td>3.0</td>
+      <td>2.5</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>0.5</td>
+      <td>6.25</td>
+      <td>1.581139</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.5</td>
+      <td>3.0</td>
+      <td>2.5</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>0.5</td>
+      <td>6.25</td>
+      <td>1.581139</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>24.9</td>
+      <td>25.0</td>
+      <td>24.9</td>
+      <td>25.0</td>
+      <td>24.0</td>
+      <td>0.9</td>
+      <td>620.01</td>
+      <td>4.989990</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>1.0</td>
+      <td>6241.00</td>
+      <td>8.888194</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>9.9</td>
+      <td>10.0</td>
+      <td>9.9</td>
+      <td>10.0</td>
+      <td>9.0</td>
+      <td>1.9</td>
+      <td>98.01</td>
+      <td>3.146427</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>29.9</td>
+      <td>30.0</td>
+      <td>29.9</td>
+      <td>30.0</td>
+      <td>29.0</td>
+      <td>1.9</td>
+      <td>894.01</td>
+      <td>5.468089</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>0.0</td>
+      <td>1936.00</td>
+      <td>6.633250</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>1.0</td>
+      <td>225.00</td>
+      <td>3.872983</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT ROUND(SQRT(ABS(unit_price)), 2)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ROUND(SQRT(ABS(unit_price)), 2)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.81</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.58</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.99</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>8.89</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3.15</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>5.47</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>6.63</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>3.87</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="9-dates-functions">9. DATES FUNCTIONS</h2>
+<p>Date functions are used to work with dates and times in SQL.</p>
+<div class="query-example"><pre class="code-block"><code>WITH t AS (
+  SELECT
+    CAST(&#x27;2025-03-29 14:35:42&#x27; AS DATETIME) AS d,
+    CAST(&#x27;2025-03-29&#x27; AS DATE) AS d1,
+    CAST(&#x27;2024-12-15&#x27; AS DATE) AS d2,
+    &#x27;29/03/2025&#x27; AS str_date
+)
+SELECT
+  -- date/heure actuelles
+  strftime(&#x27;%Y&#x27;, d),
+  NOW() AS now_result,
+  CURDATE() AS curdate_result,
+  CURTIME() AS curtime_result,
+
+  -- extraction via DATE_FORMAT (texte)
+  DATE_FORMAT(d, &#x27;%Y&#x27;) AS year_part,
+  DATE_FORMAT(d, &#x27;%m&#x27;) AS month_part,
+  DATE_FORMAT(d, &#x27;%d&#x27;) AS day_part,
+  DATE_FORMAT(d, &#x27;%H&#x27;) AS hour_part,
+  DATE_FORMAT(d, &#x27;%i&#x27;) AS minute_part,
+  DATE_FORMAT(d, &#x27;%s&#x27;) AS second_part,
+
+  -- extraction directe
+  DATE(d) AS date_only,
+  TIME(d) AS time_only,
+  EXTRACT(YEAR FROM d) AS extract_year,
+  EXTRACT(MONTH FROM d) AS extract_month,
+  EXTRACT(DAY FROM d) AS extract_day,
+
+  -- additions / soustractions
+  DATE_ADD(d, INTERVAL 7 DAY) AS date_add_7_days,
+  DATE_SUB(d, INTERVAL 1 MONTH) AS date_sub_1_month,
+
+  -- différences
+  DATEDIFF(d1, d2) AS datediff_days,
+  TIMESTAMPDIFF(DAY, d2, d1) AS tsdiff_days,
+  TIMESTAMPDIFF(MONTH, d2, d1) AS tsdiff_months,
+  TIMESTAMPDIFF(YEAR, d2, d1) AS tsdiff_years,
+  TIMESTAMPDIFF(HOUR, d2, d1) AS tsdiff_hours,
+
+  -- parsing
+  STR_TO_DATE(str_date, &#x27;%d/%m/%Y&#x27;) AS str_to_date_result,
+
+  -- fin de mois
+  LAST_DAY(d) AS last_day_result,
+
+  -- unix timestamp
+  UNIX_TIMESTAMP(d) AS unix_ts,
+  FROM_UNIXTIME(UNIX_TIMESTAMP(d)) AS from_unix_ts
+
+FROM t;</code></pre></div>
+<h2 id="10-cast-and-type-conversions">10. CAST AND TYPE CONVERSIONS</h2>
+<p><strong><code>CAST()</code></strong> is used to convert a value from one data type to another (useful when data is not stored in the format you need for analysis).</p>
+<div class="query-example"><pre class="code-block"><code>SELECT CAST(&#x27;475&#x27; AS INTEGER), CAST(12.75 AS INTEGER)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CAST('475' AS INTEGER)</th>
+      <th>CAST(12.75 AS INTEGER)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>475</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT CAST(&#x27;12.75&#x27; AS REAL), CAST(12 AS REAL)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CAST('12.75' AS REAL)</th>
+      <th>CAST(12 AS REAL)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.75</td>
+      <td>12.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT CAST(&#x27;12.75&#x27; AS TEXT), CAST(12 AS TEXT)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CAST('12.75' AS TEXT)</th>
+      <th>CAST(12 AS TEXT)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12.75</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT CAST(&#x27;45.67&#x27; AS NUMERIC), CAST(&#x27;45.0&#x27; AS NUMERIC)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CAST('45.67' AS NUMERIC)</th>
+      <th>CAST('45.0' AS NUMERIC)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>45.67</td>
+      <td>45</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT CAST(&#x27;ABC&#x27; AS BLOB)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CAST('ABC' AS BLOB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>b'ABC'</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="11-aggregate-fuctions">11. AGGREGATE FUCTIONS</h2>
+<p>Aggregate functions are used to perform calculations on multiple rows and return a single result (useful when you want to summarize data).</p>
+<p>Aggregate functions are often used with GROUP BY. The GROUP BY clause splits the result-set into groups of values and the aggregate function can be used to return a single value for each group.</p>
+<p>Without GROUP BY, an aggregate function returns one result for the whole filtered table.</p>
+<p>The most commonly used SQL aggregate functions are:</p>
+<ul><li><strong><code>MIN()</code></strong> - returns the smallest value of a column</li><li><strong><code>MAX()</code></strong> - returns the largest value of a column</li><li><strong><code>COUNT()</code></strong> - returns the number of rows in a set</li><li><strong><code>SUM()</code></strong> - returns the sum of a numerical column</li><li><strong><code>AVG()</code></strong> - returns the average value of a numerical column</li></ul>
+<p>Aggregate functions ignore null values, except for COUNT(*).</p>
+<h3 id="min">MIN()</h3>
+<p><strong><code>MIN()</code></strong> returns the smallest value in a column.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT MIN(unit_price), MIN(stock_quantity)
+FROM products;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MIN(unit_price)</th>
+      <th>MIN(stock_quantity)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.5</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT MIN(unit_price) as MinPriceCatOne
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MinPriceCatOne</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9.9</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="max">MAX()</h3>
+<p><strong><code>MIN()</code></strong> returns the largest value in a column.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT MAX(unit_price), MAX(stock_quantity)
+FROM products;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAX(unit_price)</th>
+      <th>MAX(stock_quantity)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>79.0</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT MAX(unit_price) as MaxPriceCatOne
+FROM products
+WHERE category_id = 2;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MaxPriceCatOne</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.5</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="count">COUNT()</h3>
+<p><strong><code>COUNT()</code></strong> returns the number of rows.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT COUNT(*)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COUNT(*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT COUNT(product_name)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COUNT(product_name)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT COUNT(DISTINCT category_id)
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COUNT(DISTINCT category_id)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT COUNT(*)
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>COUNT(*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="sum">SUM()</h3>
+<p><strong><code>SUM()</code></strong> returns the total of a numeric column.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT SUM(unit_price)
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SUM(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>128.8</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT SUM(unit_price * 10)
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SUM(unit_price * 10)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1288.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="avg">AVG()</h3>
+<div class="query-example"><pre class="code-block"><code>SELECT AVG(unit_price)
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AVG(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>32.2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT AVG(unit_price * 10)
+FROM products
+WHERE category_id = 3;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AVG(unit_price * 10)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>322.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT AVG(unit_price) AS AvgPrice, MIN(unit_price) AS MinPrice, MAX(unit_price) AS MaxPrice, COUNT(unit_price) AS CountPrice
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AvgPrice</th>
+      <th>MinPrice</th>
+      <th>MaxPrice</th>
+      <th>CountPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>23.41</td>
+      <td>2.5</td>
+      <td>79.0</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="12-group-by">12. GROUP BY</h2>
+<p>The <strong><code>GROUP BY</code></strong> clause is used to group rows that have the same value in one or more columns.</p>
+<p>GROUP BY is almost always used with aggregate fucntons (<strong><code>COUNT()</code></strong>, <strong><code>MIN()</code></strong>, <strong><code>MAX()</code></strong>, <strong><code>AVG()</code></strong>, <strong><code>SUM()</code></strong>)</p>
+<p><strong>Important rule</strong></p>
+<p>When using GROUP BY, every selected column must usually be <em><strong>included in GROUP BY</strong></em> or <em><strong>used inside an aggregate function</strong></em></p>
+<div class="query-example"><pre class="code-block"><code>SELECT country, COUNT(customer_id) AS [Nb of customers]
+FROM customers
+GROUP BY country
+ORDER BY [Nb of customers] DESC</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>Nb of customers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>France</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Spain</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Italy</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT country, city, COUNT(customer_id) AS [Nb of customers]
+FROM customers
+GROUP BY country, city
+ORDER BY [Nb of customers] DESC</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>city</th>
+      <th>Nb of customers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+      <td>Geneva</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>France</td>
+      <td>Lyon</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>France</td>
+      <td>Paris</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Italy</td>
+      <td>Milan</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Spain</td>
+      <td>Barcelona</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Switzerland</td>
+      <td>Lausanne</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Switzerland</td>
+      <td>Zurich</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT category_name, SUM(unit_price), MAX(unit_price), MIN(unit_price), AVG(unit_price)
+FROM products AS p
+JOIN categories AS c
+ON p.category_id = c.category_id
+GROUP BY category_name</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+      <th>SUM(unit_price)</th>
+      <th>MAX(unit_price)</th>
+      <th>MIN(unit_price)</th>
+      <th>AVG(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Books</td>
+      <td>73.9</td>
+      <td>44.0</td>
+      <td>29.9</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Electronics</td>
+      <td>128.8</td>
+      <td>79.0</td>
+      <td>9.9</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Snacks</td>
+      <td>2.5</td>
+      <td>2.5</td>
+      <td>2.5</td>
+      <td>2.50</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT e.first_name || &quot; &quot; || e.last_name AS [Employee name], COUNT(o.order_id) AS [Nb of orders done]
+FROM orders AS o
+JOIN employees AS e
+ON e.employee_id = o.employee_id
+GROUP BY [Employee name]
+ORDER BY [Nb of orders done] DESC</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Employee name</th>
+      <th>Nb of orders done</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sarah Dupont</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Nicolas Weber</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Ines Favre</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT category_ID, SUM(unit_price), MAX(unit_price), MIN(unit_price), AVG(unit_price)
+FROM products
+WHERE unit_price &gt; 30
+GROUP BY category_ID</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_id</th>
+      <th>SUM(unit_price)</th>
+      <th>MAX(unit_price)</th>
+      <th>MIN(unit_price)</th>
+      <th>AVG(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>44.0</td>
+      <td>44.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="13-having">13. HAVING</h2>
+<p>The <strong><code>HAVING</code></strong> clause is used to filter groups after <strong><code>GROUP BY</code></strong>. While <strong><code>WHERE</code></strong> filters individual rows, <strong><code>HAVING</code></strong> filters the grouped result.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT country, COUNT(customer_id) AS [Nb of customers]
+FROM customers
+GROUP BY country
+HAVING [Nb of customers] &gt;= 2
+ORDER BY [Nb of customers] DESC</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>Nb of customers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Switzerland</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>France</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT category_ID, SUM(unit_price), MAX(unit_price), MIN(unit_price), AVG(unit_price)
+FROM products
+WHERE unit_price &gt; 30
+GROUP BY category_ID
+HAVING SUM(unit_price) &gt; 50</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_id</th>
+      <th>SUM(unit_price)</th>
+      <th>MAX(unit_price)</th>
+      <th>MIN(unit_price)</th>
+      <th>AVG(unit_price)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+      <td>79.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="14-joins">14. JOINs</h2>
+<p>A <strong><code>JOIN</code></strong> is used to combine rows from two or more tables based on a related column (essential in SQL because data is often stored in separate tables).</p>
+<ul><li><strong><code>(INNER) JOIN</code></strong> -- Returns only rows that have matching values in both table</li><li><strong><code>LEFT (OUTER) JOIN</code></strong> -- Returns all rows from the left table, and only matched rows from the right table</li><li><strong><code>RIGHT (OUTER) JOIN</code></strong> -- Returns all rows from the right table, and only matched rows from the left table</li><li><strong><code>FULL (OUTER) JOIN</code></strong> -- Return all rows when there is a match in either the left of right table</li></ul>
+<h3 id="inner-join">INNER JOIN</h3>
+<p>The <strong><code>JOIN</code></strong> (INNER JOIN) returns only rows that have matching values in both tables. <strong><code>INNER JOIN</code></strong> or only <strong><code>JOIN</code></strong> are the same.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+JOIN categories as c
+ON p.category_id = c.category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT o.order_date, c.first_name || &quot; &quot; || c.last_name AS [Customer name], e.first_name || &quot; &quot; || e.last_name AS [Employee name]
+FROM orders AS o
+JOIN customers AS c
+ON o.customer_id = c.customer_id
+JOIN employees AS e
+ON o.employee_id = e.employee_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>Customer name</th>
+      <th>Employee name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01-10</td>
+      <td>Alice Martin</td>
+      <td>Sarah Dupont</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-01-12</td>
+      <td>Karim Benali</td>
+      <td>Nicolas Weber</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-01-18</td>
+      <td>Alice Martin</td>
+      <td>Sarah Dupont</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-02</td>
+      <td>Sofia Rossi</td>
+      <td>Nicolas Weber</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-08</td>
+      <td>Lucas Dubois</td>
+      <td>Sarah Dupont</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-02-18</td>
+      <td>Emma Schneider</td>
+      <td>Ines Favre</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-01</td>
+      <td>Noah Garcia</td>
+      <td>Nicolas Weber</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-03-03</td>
+      <td>Maya Haddad</td>
+      <td>Sarah Dupont</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>Maya Haddad</td>
+      <td>Ines Favre</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-03-07</td>
+      <td>Karim Benali</td>
+      <td>Nicolas Weber</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="left-join">LEFT JOIN</h3>
+<p>The <strong><code>LEFT JOIN</code></strong> (LEFT OUTER JOIN) returns all rows from the left table (table 1) and only the matched rows from the right table (table 2). <strong><code>LEFT OUTER JOIN</code></strong> or only <strong><code>LEFT JOIN</code></strong> are the same.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+LEFT JOIN categories as c
+ON p.category_id = c.category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+LEFT JOIN categories as c
+ON p.category_id = c.category_id
+WHERE NOT category_name IS NULL</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+LEFT JOIN categories as c
+ON p.category_id = c.category_id
+WHERE category_name IS NULL</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="right-join">RIGHT JOIN</h3>
+<p>The <strong><code>RIGHT JOIN</code></strong> (RIGHT OUTER JOIN) returns all rows from the right table (table 2) and only the matched rows from the left table (table 1). <strong><code>RIGHT OUTER JOIN</code></strong> or only <strong><code>RIGHT JOIN</code></strong> are the same.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+RIGHT JOIN categories as c
+ON p.category_id = c.category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>None</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>None</td>
+      <td>Test</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="full-join">FULL JOIN</h3>
+<p>The <strong><code>FULL JOIN</code></strong> (FULL OUTER JOIN) returns all rows when there is a match or not. <strong><code>FULL OUTER JOIN</code></strong> or only <strong><code>FULL JOIN</code></strong> are the same.</p>
+<p><strong>BE CAREFUL</strong></p>
+<p><strong><code>FULL JOIN</code></strong> can return very large result sets !!</p>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products as p
+FULL JOIN categories as c
+ON p.category_id = c.category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>None</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>None</td>
+      <td>Test</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="self-join">SELF JOIN</h3>
+<p>A <strong><code>SELF JOIN</code></strong> is a regular join, but the table is joined with itself.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT a.first_name || &quot; &quot; || a.last_name AS [Customer name (a)], b.first_name || &quot; &quot; || b.last_name AS [Customer name (b)], a.city
+FROM customers AS a, customers AS b
+WHERE a.customer_id &lt;&gt; b.customer_id
+AND a.city = b.city
+ORDER BY a.city</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Customer name (a)</th>
+      <th>Customer name (b)</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice Martin</td>
+      <td>Maya Haddad</td>
+      <td>Geneva</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Maya Haddad</td>
+      <td>Alice Martin</td>
+      <td>Geneva</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="cross-join">CROSS JOIN</h3>
+<p>CROSS JOIN returns the Cartesian product of two tables (every row from the first table is combined with every row from the second table)</p>
+<div class="query-example"><pre class="code-block"><code>SELECT p.product_name, c.category_name
+FROM products AS p
+CROSS JOIN categories AS c</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Coffee Beans 1kg</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Coffee Beans 1kg</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Coffee Beans 1kg</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Coffee Beans 1kg</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Green Tea Box</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Green Tea Box</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Green Tea Box</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Green Tea Box</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Green Tea Box</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Protein Bar</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Protein Bar</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Protein Bar</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Protein Bar</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Protein Bar</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Potato Chips</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Potato Chips</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Potato Chips</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Potato Chips</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Potato Chips</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Wireless Mouse</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Wireless Mouse</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Wireless Mouse</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Wireless Mouse</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Wireless Mouse</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Mechanical Keyboard</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Mechanical Keyboard</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Mechanical Keyboard</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Mechanical Keyboard</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Mechanical Keyboard</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>USB-C Cable</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>USB-C Cable</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>USB-C Cable</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>USB-C Cable</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>USB-C Cable</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>SQL for Beginners</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>SQL for Beginners</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>SQL for Beginners</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>SQL for Beginners</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>SQL for Beginners</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Advanced Data Modeling</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Advanced Data Modeling</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Advanced Data Modeling</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Advanced Data Modeling</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Advanced Data Modeling</td>
+      <td>Test</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Old Headphones</td>
+      <td>Beverages</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Old Headphones</td>
+      <td>Snacks</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Old Headphones</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Old Headphones</td>
+      <td>Books</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Old Headphones</td>
+      <td>Test</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="15-subqueries">15. SUBQUERIES</h2>
+<p>A <strong><code>SUBQUERY</code></strong> is a query written inside another query (used when the result of one query is needed by another query)</p>
+<p>A subquery can appear in different parts of a SQL statement, such as <strong><code>WHERE</code></strong>, <strong><code>FROM</code></strong> and <strong><code>SELECT</code></strong></p>
+<h3 id="subquery-in-where">SUBQUERY in WHERE</h3>
+<p>This is one of the most common uses of subqueries.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price
+FROM products
+WHERE unit_price &gt; (SELECT AVG(unit_price) FROM products)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price
+FROM products
+WHERE category_id IN (SELECT category_id FROM categories WHERE category_name IN (&#x27;Books&#x27;, &#x27;Electronics&#x27;))</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>USB-C Cable</td>
+      <td>9.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Old Headphones</td>
+      <td>15.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT first_name
+FROM customers
+WHERE customer_id NOT IN (SELECT customer_id FROM orders)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Leo</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="subquery-in-from">SUBQUERY in FROM</h3>
+<p>A subquery can also be used as a temporary table inside <strong><code>FROM</code></strong> (useful when you want to build a result in stages).</p>
+<p><strong>IMPORTANT</strong> It is mandatory to give an aliases to the table from the subquery</p>
+<div class="query-example"><pre class="code-block"><code>SELECT category_name, avg_price
+FROM (
+  SELECT category_name, AVG(unit_price) AS avg_price
+  FROM products AS p
+  JOIN categories as c
+  ON p.category_id = c.category_id
+  GROUP BY category_name
+) AS category_summary
+WHERE avg_price &gt; 30;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Books</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Electronics</td>
+      <td>32.20</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="subquery-in-select">SUBQUERY in SELECT</h3>
+<p>A subquery can also appear inside the <strong><code>SELECT</code></strong> list.</p>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price,
+(SELECT AVG(unit_price) FROM products) AS avg_price
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>18.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>7.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>2.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+      <td>2.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+      <td>9.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Old Headphones</td>
+      <td>15.0</td>
+      <td>23.41</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="correlated-subquery">CORRELATED SUBQUERY</h3>
+<p>A <strong><code>CORRELATED SUBQUERY</code></strong> depends on a value from the outer query. The inner query is linked to the current row of the outer query (useful when the comparison depends on the current row).</p>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price
+FROM products AS p
+WHERE unit_price &gt; (
+  SELECT AVG(unit_price)
+  FROM products AS pp
+  WHERE p.category_id = pp.category_id
+)</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="16-common-table-expression-cte">16. COMMON TABLE EXPRESSION (CTE)</h2>
+<p>A <strong><code>COMMON TABLE EXPRESSION</code></strong> (CTE) is a temporary named result set created with the <strong><code>WITH</code></strong> clause. It allows you to define a query first, give it a name, and the use it in the main query (helps break complex queries into smaller and more readable steps).</p>
+<p><strong>Why a CTE can be better than a Subquery</strong></p>
+<p>A CTE and a subquery can often solve the same problem. The difference is that a CTE is usually easier to read because:</p>
+<ul><li>it has a name</li></ul>
+<ul><li>it separates the logic into steps</li></ul>
+<ul><li>it avoids deeply nested queries</li></ul>
+<p>This makes complex SQL more understandable.</p>
+<div class="query-example"><pre class="code-block"><code>WITH high_price_products AS (
+  SELECT product_name, unit_price
+  FROM products
+  WHERE unit_price &gt; 50
+)
+SELECT *
+FROM high_price_products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH category_summary AS (
+    SELECT category_name, AVG(unit_price) AS avg_price
+    FROM products AS p
+    JOIN categories AS c
+    ON  p.category_id = c.category_id
+    GROUP BY category_name
+)
+SELECT *
+FROM category_summary</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Books</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Electronics</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Snacks</td>
+      <td>2.50</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH category_summary AS (
+    SELECT category_name, AVG(unit_price) AS avg_price
+    FROM products AS p
+    JOIN categories AS c
+    ON  p.category_id = c.category_id
+    GROUP BY category_name
+)
+SELECT category_name
+FROM category_summary
+WHERE avg_price &lt; 20</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Snacks</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH category_summary AS (
+    SELECT category_name, AVG(unit_price) AS avg_price
+    FROM products AS p
+    JOIN categories AS c
+    ON  p.category_id = c.category_id
+    GROUP BY category_name
+),
+high_price_categories AS (
+  SELECT category_name
+  FROM category_summary
+  WHERE avg_price &lt; 20
+)
+SELECT *
+FROM high_price_categories;</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Snacks</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH category_summary AS (
+    SELECT category_id, AVG(unit_price) AS avg_price
+    FROM products
+    GROUP BY category_id
+)
+SELECT c.category_name, cs.avg_price
+FROM category_summary AS cs
+JOIN categories AS c
+ON cs.category_id = c.category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_name</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Snacks</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Electronics</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Books</td>
+      <td>36.95</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH monthly_orders AS (
+    SELECT STRFTIME(&#x27;%Y-%m&#x27;, order_date) AS year_month, COUNT(*) AS number_of_orders
+    FROM orders
+    GROUP BY year_month
+)
+SELECT *
+FROM monthly_orders
+ORDER BY year_month</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year_month</th>
+      <th>number_of_orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-03</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h2 id="17-window-functions">17. WINDOW FUNCTIONS</h2>
+<p>Window functions perform calculations across a set of rows related to the current row.</p>
+<p>Unlike aggregate functions, they do not reduce the result to one row per group. They return a value for each row while still looking at other rows in the same result set.</p>
+<p><strong>Aggregate Functions vs Window Functions</strong></p>
+<ul><li>Aggregate functions return one result per group</li></ul>
+<ul><li>Window functions return one result per row according to a specific group</li></ul>
+<h3 id="aggregate-vs-window-functions">AGGREGATE VS WINDOW FUNCTIONS</h3>
+<div class="query-example"><pre class="code-block"><code>SELECT category_id, AVG(unit_price) AS avg_price
+FROM products
+GROUP BY category_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_id</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10</td>
+      <td>18.50</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>11</td>
+      <td>7.90</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>12</td>
+      <td>2.50</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, category_id, AVG(unit_price) OVER (PARTITION BY category_id) AS avg_price
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>category_id</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potato Chips</td>
+      <td>2</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+      <td>3</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+      <td>3</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>USB-C Cable</td>
+      <td>3</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Old Headphones</td>
+      <td>3</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>SQL for Beginners</td>
+      <td>4</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Advanced Data Modeling</td>
+      <td>4</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Coffee Beans 1kg</td>
+      <td>10</td>
+      <td>18.50</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Green Tea Box</td>
+      <td>11</td>
+      <td>7.90</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Protein Bar</td>
+      <td>12</td>
+      <td>2.50</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="syntax">SYNTAX</h3>
+<pre class="code-block"><code>SELECT column_names,
+       window_function() OVER (
+           PARTITION BY partition_column
+           ORDER BY sort_column
+           frame_clause
+       ) AS alias
+FROM table_name;</code></pre>
+<ul><li><strong><code>window_function()</code></strong> : The function that performs the calculation.</li><li><strong><code>OVER()</code></strong> : Specifies how the function is applied.</li><li><strong><code>PARTITION BY</code></strong> : <em>(Optional)</em> Divides rows into groups before applying the function.</li><li><strong><code>ORDER BY</code></strong> : <em>(Optional)</em> Sorts rows within each partition.</li></ul>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price,
+AVG(unit_price) OVER () AS avg_price
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Coffee Beans 1kg</td>
+      <td>18.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Green Tea Box</td>
+      <td>7.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Protein Bar</td>
+      <td>2.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Potato Chips</td>
+      <td>2.5</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>USB-C Cable</td>
+      <td>9.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+      <td>23.41</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Old Headphones</td>
+      <td>15.0</td>
+      <td>23.41</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT product_name, unit_price,
+AVG(unit_price) OVER (PARTITION BY category_id) AS avg_price
+FROM products</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>product_name</th>
+      <th>unit_price</th>
+      <th>avg_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Potato Chips</td>
+      <td>2.5</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Wireless Mouse</td>
+      <td>24.9</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mechanical Keyboard</td>
+      <td>79.0</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>USB-C Cable</td>
+      <td>9.9</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Old Headphones</td>
+      <td>15.0</td>
+      <td>32.20</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>SQL for Beginners</td>
+      <td>29.9</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Advanced Data Modeling</td>
+      <td>44.0</td>
+      <td>36.95</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Coffee Beans 1kg</td>
+      <td>18.5</td>
+      <td>18.50</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Green Tea Box</td>
+      <td>7.9</td>
+      <td>7.90</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Protein Bar</td>
+      <td>2.5</td>
+      <td>2.50</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>SELECT orders.order_date, unit_price,
+sum(unit_price) OVER (ORDER BY orders.order_date) AS sum_price
+FROM order_items
+JOIN orders
+ON order_items.order_id = orders.order_id</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>unit_price</th>
+      <th>sum_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01-10</td>
+      <td>18.5</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-01-10</td>
+      <td>2.5</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-01-12</td>
+      <td>24.9</td>
+      <td>55.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-12</td>
+      <td>9.9</td>
+      <td>55.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-18</td>
+      <td>29.9</td>
+      <td>93.6</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-01-18</td>
+      <td>7.9</td>
+      <td>93.6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>172.6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-02-08</td>
+      <td>2.5</td>
+      <td>177.6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-02-08</td>
+      <td>2.5</td>
+      <td>177.6</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-18</td>
+      <td>44.0</td>
+      <td>240.1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2025-02-18</td>
+      <td>18.5</td>
+      <td>240.1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2025-03-01</td>
+      <td>24.9</td>
+      <td>274.9</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2025-03-01</td>
+      <td>9.9</td>
+      <td>274.9</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2025-03-03</td>
+      <td>29.9</td>
+      <td>307.3</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2025-03-03</td>
+      <td>2.5</td>
+      <td>307.3</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2025-03-05</td>
+      <td>7.9</td>
+      <td>317.7</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2025-03-05</td>
+      <td>2.5</td>
+      <td>317.7</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2025-03-07</td>
+      <td>79.0</td>
+      <td>415.2</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2025-03-07</td>
+      <td>18.5</td>
+      <td>415.2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+)
+SELECT order_date,
+sum(total_price) OVER (ORDER BY order_date) AS sum_price
+FROM test</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>sum_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-01-12</td>
+      <td>55.8</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-01-18</td>
+      <td>93.6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-02</td>
+      <td>172.6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-08</td>
+      <td>177.6</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-02-18</td>
+      <td>240.1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-01</td>
+      <td>274.9</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-03-03</td>
+      <td>307.3</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>317.7</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-03-07</td>
+      <td>415.2</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="ranking-functions">RANKING FUNCTIONS</h3>
+<ul><li><strong><code>ROW_NUMBER()</code></strong> = assigns a unique row number to each row inside the window</li><li><strong><code>RANK()</code></strong> = assigns the same rank for ties, but leaving gaps after ties</li><li><strong><code>DENSE_RANK()</code></strong> = assigns the same rank for ties, but without leaving gaps after ties</li><li><strong><code>PERCENT_RANK()</code></strong> = assign a rank between 0 and 1.</li></ul>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+sum(total_price) OVER (ORDER BY total_price DESC) AS cumulative_sum_price
+FROM test
+)
+SELECT order_date, total_price, cumulative_sum_price,
+ROW_NUMBER() OVER (ORDER BY total_price DESC) AS rank
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>cumulative_sum_price</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>176.5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>239.0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>276.8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>378.8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>399.8</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>410.2</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>415.2</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+sum(total_price) OVER (ORDER BY total_price DESC) AS cumulative_sum_price
+FROM test
+)
+SELECT order_date, total_price, cumulative_sum_price,
+RANK() OVER (ORDER BY total_price DESC) AS rank
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>cumulative_sum_price</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>176.5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>239.0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>276.8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>378.8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>399.8</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>410.2</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>415.2</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+sum(total_price) OVER (ORDER BY total_price DESC) AS cumulative_sum_price
+FROM test
+)
+SELECT order_date, total_price, cumulative_sum_price,
+DENSE_RANK() OVER (ORDER BY total_price DESC) AS rank
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>cumulative_sum_price</th>
+      <th>rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>176.5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>239.0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>276.8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>378.8</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>399.8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>410.2</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>415.2</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+PERCENT_RANK() OVER (ORDER BY total_price DESC) AS percent_rank
+FROM test
+)
+SELECT order_date, total_price, percent_rank
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>percent_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>0.111111</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>0.222222</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>0.444444</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>0.444444</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>0.666667</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>0.777778</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>0.888889</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="value-functions">VALUE FUNCTIONS</h3>
+<ul><li><strong><code>LAG()</code></strong> = returns the value of the previous row</li><li><strong><code>LEAD()</code></strong> = returns the value of the previous row</li></ul>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+sum(total_price) OVER (ORDER BY total_price DESC) AS cumulative_sum_price
+FROM test
+)
+SELECT order_date, total_price, cumulative_sum_price,
+LAG(total_price) OVER (ORDER BY total_price DESC) AS prev,
+total_price - LAG(total_price) OVER (ORDER BY total_price DESC) AS diff
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>cumulative_sum_price</th>
+      <th>prev</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>176.5</td>
+      <td>97.5</td>
+      <td>-18.5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>239.0</td>
+      <td>79.0</td>
+      <td>-16.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>276.8</td>
+      <td>62.5</td>
+      <td>-24.7</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>37.8</td>
+      <td>-3.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>34.8</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>378.8</td>
+      <td>34.8</td>
+      <td>-2.4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>399.8</td>
+      <td>32.4</td>
+      <td>-11.4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>410.2</td>
+      <td>21.0</td>
+      <td>-10.6</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>415.2</td>
+      <td>10.4</td>
+      <td>-5.4</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+),
+testt AS(
+SELECT order_date, total_price,
+SUM(total_price) OVER (ORDER BY total_price DESC) AS cumulative_sum_price
+FROM test
+)
+SELECT order_date, total_price, cumulative_sum_price,
+LEAD(total_price) OVER (ORDER BY total_price DESC) AS next,
+total_price - LEAD(total_price) OVER (ORDER BY total_price DESC) as diff
+FROM testt</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>cumulative_sum_price</th>
+      <th>next</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.5</td>
+      <td>79.0</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>176.5</td>
+      <td>62.5</td>
+      <td>16.5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>239.0</td>
+      <td>37.8</td>
+      <td>24.7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>276.8</td>
+      <td>34.8</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>34.8</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>346.4</td>
+      <td>32.4</td>
+      <td>2.4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>378.8</td>
+      <td>21.0</td>
+      <td>11.4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>399.8</td>
+      <td>10.4</td>
+      <td>10.6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>410.2</td>
+      <td>5.0</td>
+      <td>5.4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>415.2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<h3 id="aggregate-window-functions">AGGREGATE WINDOW FUNCTIONS</h3>
+<ul><li><strong><code>SUM()</code></strong> OVER (...)</li><li><strong><code>AVG()</code></strong> OVER (...)</li><li><strong><code>COUNT()</code></strong> OVER (...)</li><li><strong><code>MIN()</code></strong> OVER (...)</li><li><strong><code>MAX()</code></strong> OVER (...)</li></ul>
+<h3 id="mooving-windows">MOOVING WINDOWS</h3>
+<p>A moving window uses a frame clause to define which rows around the current row are included, useful for:</p>
+<ul><li>moving averages</li><li>rolling sums</li><li>smoothing trends</li></ul>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+)
+SELECT order_date, total_price,
+AVG(total_price) OVER (
+    ORDER BY total_price DESC
+    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS moving
+FROM test</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>moving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>97.500000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>88.250000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>79.666667</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>59.766667</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>45.033333</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>35.800000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>34.000000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>29.400000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>21.266667</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>12.133333</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+)
+SELECT order_date, total_price,
+SUM(total_price) OVER (
+    ORDER BY total_price DESC
+    ROWS BETWEEN CURRENT ROW AND 4 FOLLOWING
+    ) AS moving
+FROM test</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>moving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>311.6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>248.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>202.3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>160.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>133.4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>103.6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>68.8</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>36.4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>15.4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table></div></div>
+<div class="query-example"><pre class="code-block"><code>WITH test AS(
+    SELECT o.order_date, SUM(oi.unit_price) AS total_price
+    FROM order_items oi
+    JOIN orders o
+    ON oi.order_id = o.order_id
+    GROUP BY o.order_date
+)
+SELECT order_date, total_price,
+AVG(total_price) OVER (
+    ORDER BY total_price DESC
+    ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+    ) AS moving
+FROM test</code></pre><div class="table-scroll"><table >
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_date</th>
+      <th>total_price</th>
+      <th>moving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-03-07</td>
+      <td>97.5</td>
+      <td>88.250000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>79.0</td>
+      <td>79.666667</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-18</td>
+      <td>62.5</td>
+      <td>59.766667</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-01-18</td>
+      <td>37.8</td>
+      <td>45.033333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-01-12</td>
+      <td>34.8</td>
+      <td>35.800000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-03-01</td>
+      <td>34.8</td>
+      <td>34.000000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-03-03</td>
+      <td>32.4</td>
+      <td>29.400000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-01-10</td>
+      <td>21.0</td>
+      <td>21.266667</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-05</td>
+      <td>10.4</td>
+      <td>12.133333</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-02-08</td>
+      <td>5.0</td>
+      <td>7.700000</td>
+    </tr>
+  </tbody>
+</table></div></div>
+  </main>
+</div>
+</body>
+</html>

@@ -24,9 +24,17 @@
     <nav id="category-nav" class="category-nav" aria-label="Exercices par catégorie"></nav>
 
     <div class="sidebar-bottom">
+      <a href="theory/index.html" class="btn btn-ghost btn-small">
+        📖 Théorie SQL
+      </a>
+      <button id="sync-btn" class="btn btn-ghost btn-small" type="button">
+        ☁️ Sauvegarder sur GitHub
+      </button>
+      <p id="sync-status" class="sync-status"></p>
       <button id="reset-btn" class="btn btn-ghost btn-small" type="button">
         Réinitialiser ma progression
       </button>
+      <button id="token-btn" class="link-btn" type="button">🔑 Configurer le token GitHub</button>
     </div>
   </aside>
 
@@ -43,6 +51,14 @@
           <div class="badges">
             <span id="badge-category" class="badge badge-category"></span>
             <span id="badge-difficulty" class="badge badge-difficulty"></span>
+          </div>
+        </div>
+        <div class="flag-control">
+          <span class="flag-control-label">Ma difficulté</span>
+          <div id="flag-buttons" class="flag-buttons">
+            <button type="button" class="flag-btn flag-btn-easy" data-flag="easy" title="Marquer facile pour moi">Facile</button>
+            <button type="button" class="flag-btn flag-btn-medium" data-flag="medium" title="Marquer moyen pour moi">Moyen</button>
+            <button type="button" class="flag-btn flag-btn-hard" data-flag="hard" title="Marquer difficile pour moi, à refaire">Difficile</button>
           </div>
         </div>
       </header>

@@ -1,8 +1,10 @@
-// Persistance locale (localStorage) : progression resolue + brouillons de requetes.
-// Aucun backend, aucune donnee envoyee nulle part - tout reste dans le navigateur.
+// Persistance locale (localStorage) : progression resolue, brouillons de requetes,
+// flags personnels et token GitHub pour la synchronisation.
 
 const SOLVED_KEY = "sqltrainer.solvedIds.v1";
 const DRAFTS_KEY = "sqltrainer.drafts.v1";
+const FLAGS_KEY = "sqltrainer.flags.v1";
+const TOKEN_KEY = "sqltrainer.github_token.v1";
 
 function safeGet(key) {
   try {
@@ -58,4 +60,37 @@ export function saveDraft(exerciseId, sqlText) {
   const drafts = loadDrafts();
   drafts[exerciseId] = sqlText;
   safeSet(DRAFTS_KEY, JSON.stringify(drafts));
+}
+
+// Flags personnels (facile/moyen/difficile "a refaire") : independants de la
+// progression, ne sont jamais effaces par la reinitialisation.
+export function loadFlags() {
+  const raw = safeGet(FLAGS_KEY);
+  if (!raw) return {};
+  try {
+    const obj = JSON.parse(raw);
+    return obj && typeof obj === "object" ? obj : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+export function saveFlags(flags) {
+  safeSet(FLAGS_KEY, JSON.stringify(flags));
+}
+
+export function loadToken() {
+  return safeGet(TOKEN_KEY) || "";
+}
+
+export function saveToken(token) {
+  safeSet(TOKEN_KEY, token);
+}
+
+export function clearToken() {
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+  } catch (e) {
+    /* ignore */
+  }
 }

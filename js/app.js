@@ -1,7 +1,19 @@
 import { initDatabase, runQuery } from "./db.js";
 import { validateQuery } from "./queryGuard.js";
 import { compareResults } from "./grading.js";
-import { loadSolvedIds, saveSolvedIds, resetSolvedIds, loadDrafts, saveDraft } from "./storage.js";
+import {
+  loadSolvedIds,
+  saveSolvedIds,
+  resetSolvedIds,
+  loadDrafts,
+  saveDraft,
+  loadFlags,
+  saveFlags,
+  loadToken,
+  saveToken,
+  clearToken,
+} from "./storage.js";
+import { fetchRemoteProgress, pushProgress } from "./sync.js";
 
 const DIFFICULTY_CLASS = { Facile: "easy", Moyen: "medium", Difficile: "hard" };
 
@@ -22,6 +34,7 @@ let exercisesData;
 let exercisesById = new Map();
 let exercisesByCategory = new Map();
 let solvedIds = loadSolvedIds();
+let flags = loadFlags();
 let drafts = loadDrafts();
 let currentExerciseId = null;
 
@@ -35,6 +48,7 @@ async function main() {
     exercisesData = exercisesJson;
 
     indexExercises();
+    await syncFromRemote();
     renderSidebar();
     renderTablesTab();
     wireGlobalEvents();
@@ -43,6 +57,91 @@ async function main() {
     el("loading").classList.add("hidden");
   } catch (err) {
     showFatalError(err);
+  }
+}
+
+function formatDate(iso) {
+  try {
+    return new Date(iso).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
+  } catch (e) {
+    return iso;
+  }
+}
+
+function setSyncStatus(text, kind) {
+  const status = el("sync-status");
+  if (!status) return;
+  status.textContent = text;
+  status.className = kind ? `sync-status sync-${kind}` : "sync-status";
+}
+
+async function syncFromRemote() {
+  try {
+    const remote = await fetchRemoteProgress(loadToken());
+    if (!remote) return;
+
+    const remoteSolved = Array.isArray(remote.solvedIds) ? remote.solvedIds : [];
+    remoteSolved.forEach((id) => solvedIds.add(id));
+    saveSolvedIds(solvedIds);
+
+    const remoteFlags = remote.flags && typeof remote.flags === "object" ? remote.flags : {};
+    flags = { ...remoteFlags, ...flags };
+    saveFlags(flags);
+
+    if (remote.updatedAt) {
+      setSyncStatus(`Dernière sauvegarde : ${formatDate(remote.updatedAt)}`);
+    }
+  } catch (err) {
+    setSyncStatus("Synchro indisponible (hors-ligne ?)", "error");
+  }
+}
+
+function promptForToken() {
+  const input = window.prompt(
+    "Colle ton token d'accès personnel GitHub (fine-grained, scope \"Contents: Read and write\", limité à ce repo)."
+  );
+  if (!input) return null;
+  const token = input.trim();
+  saveToken(token);
+  return token;
+}
+
+async function handleSync() {
+  let token = loadToken();
+  if (!token) {
+    token = promptForToken();
+    if (!token) return;
+  }
+
+  const btn = el("sync-btn");
+  btn.disabled = true;
+  setSyncStatus("Sauvegarde en cours…");
+  try {
+    const state = { solvedIds: [...solvedIds], flags, updatedAt: new Date().toISOString() };
+    await pushProgress(state, token);
+    setSyncStatus(`Sauvegardé à ${formatDate(state.updatedAt)}`, "success");
+  } catch (err) {
+    setSyncStatus(`Erreur : ${err.message}`, "error");
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function handleTokenConfig() {
+  const current = loadToken();
+  const input = window.prompt(
+    current
+      ? "Token GitHub configuré. Colle un nouveau token pour le remplacer, ou laisse vide pour le supprimer."
+      : "Colle ton token d'accès personnel GitHub (fine-grained, scope \"Contents: Read and write\", limité à ce repo)."
+  );
+  if (input === null) return;
+  const token = input.trim();
+  if (token === "") {
+    clearToken();
+    setSyncStatus("Token supprimé.");
+  } else {
+    saveToken(token);
+    setSyncStatus("Token enregistré.", "success");
   }
 }
 
@@ -120,7 +219,11 @@ function renderSidebar() {
       label.className = "exercise-item-title";
       label.textContent = ex.title;
 
-      btn.append(check, dot, label);
+      const flagMarker = document.createElement("span");
+      flagMarker.className = "flag-marker";
+      flagMarker.dataset.role = "flag-marker";
+
+      btn.append(check, dot, label, flagMarker);
       btn.addEventListener("click", () => selectExercise(ex.id));
       li.appendChild(btn);
       list.appendChild(li);
@@ -151,6 +254,15 @@ function updateSidebarState() {
     btn.classList.toggle("solved", isSolved);
     btn.classList.toggle("active", id === currentExerciseId);
     btn.querySelector('[data-role="check"]').textContent = isSolved ? "✓" : "";
+    const flagValue = flags[id];
+    btn.querySelector('[data-role="flag-marker"]').className = `flag-marker${flagValue ? ` flag-${flagValue}` : ""}`;
+  });
+}
+
+function updateFlagButtons() {
+  const current = flags[currentExerciseId];
+  document.querySelectorAll(".flag-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.flag === current);
   });
 }
 
@@ -189,6 +301,7 @@ function selectExercise(id) {
   el("hint-details").open = false;
   el("solution-details").open = false;
 
+  updateFlagButtons();
   updateSidebarState();
 }
 
@@ -373,11 +486,28 @@ function wireGlobalEvents() {
   });
 
   el("reset-btn").addEventListener("click", () => {
-    if (!confirm("Réinitialiser toute ta progression ?")) return;
+    if (!confirm("Réinitialiser toute ta progression ? (tes flags de difficulté personnelle sont conservés)")) return;
     solvedIds = new Set();
     resetSolvedIds();
     updateSidebarState();
   });
+
+  el("flag-buttons").addEventListener("click", (e) => {
+    const btn = e.target.closest(".flag-btn");
+    if (!btn || !currentExerciseId) return;
+    const value = btn.dataset.flag;
+    if (flags[currentExerciseId] === value) {
+      delete flags[currentExerciseId];
+    } else {
+      flags[currentExerciseId] = value;
+    }
+    saveFlags(flags);
+    updateFlagButtons();
+    updateSidebarState();
+  });
+
+  el("sync-btn").addEventListener("click", handleSync);
+  el("token-btn").addEventListener("click", handleTokenConfig);
 
   document.querySelectorAll(".tab").forEach((btn) => {
     btn.addEventListener("click", () => switchTab(btn.dataset.tab));
