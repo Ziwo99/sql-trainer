@@ -1,7 +1,30 @@
 {
   "solvedIds": [
-    "select-01"
+    "select-01",
+    "select-02",
+    "select-03",
+    "select-04",
+    "where-01",
+    "where-02",
+    "where-03",
+    "where-04",
+    "where-05",
+    "where-06",
+    "setops-01",
+    "setops-02",
+    "orderby-01",
+    "orderby-02",
+    "case-01",
+    "case-02",
+    "numeric-01",
+    "cast-01",
+    "agg-01",
+    "agg-02",
+    "agg-03",
+    "groupby-01",
+    "groupby-02",
+    "groupby-03"
   ],
   "flags": {},
-  "updatedAt": "2026-08-15T12:41:32.880Z"
+  "updatedAt": "2026-08-17T15:15:41.231Z"
 }
