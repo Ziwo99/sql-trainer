@@ -62,6 +62,14 @@ export function saveDraft(exerciseId, sqlText) {
   safeSet(DRAFTS_KEY, JSON.stringify(drafts));
 }
 
+export function resetDrafts() {
+  try {
+    localStorage.removeItem(DRAFTS_KEY);
+  } catch (e) {
+    /* ignore */
+  }
+}
+
 // Flags personnels (facile/moyen/difficile "a refaire") : independants de la
 // progression, ne sont jamais effaces par la reinitialisation.
 export function loadFlags() {

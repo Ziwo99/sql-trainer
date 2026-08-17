@@ -7,6 +7,7 @@ import {
   resetSolvedIds,
   loadDrafts,
   saveDraft,
+  resetDrafts,
   loadFlags,
   saveFlags,
   loadToken,
@@ -486,9 +487,17 @@ function wireGlobalEvents() {
   });
 
   el("reset-btn").addEventListener("click", () => {
-    if (!confirm("Réinitialiser toute ta progression ? (tes flags de difficulté personnelle sont conservés)")) return;
+    if (
+      !confirm(
+        "Réinitialiser toute ta progression et tes brouillons de requêtes ? (tes flags de difficulté personnelle sont conservés)"
+      )
+    )
+      return;
     solvedIds = new Set();
     resetSolvedIds();
+    drafts = {};
+    resetDrafts();
+    if (currentExerciseId) el("sql-input").value = "";
     updateSidebarState();
   });
 
