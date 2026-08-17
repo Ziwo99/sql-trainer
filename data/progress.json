@@ -23,8 +23,10 @@
     "agg-03",
     "groupby-01",
     "groupby-02",
-    "groupby-03"
+    "groupby-03",
+    "having-01",
+    "having-02"
   ],
   "flags": {},
-  "updatedAt": "2026-08-17T15:15:41.231Z"
+  "updatedAt": "2026-08-17T15:19:05.325Z"
 }
